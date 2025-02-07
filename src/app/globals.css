@@ -67,3 +67,17 @@
 		@apply bg-background text-foreground;
 	}
 }
+
+.cursor_active {
+	border-bottom: 2px solid transparent;
+	animation: cursor_active 1s infinite;
+}
+
+@keyframes cursor_active {
+	from {
+		border-bottom-color: transparent;
+	}
+	to {
+		border-bottom-color: #fb923c;
+	}
+}

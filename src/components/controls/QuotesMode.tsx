@@ -3,6 +3,7 @@
 import { ICON_SIZE } from "@/common/constants/keyboard";
 import { QuotesDifficultConstant } from "@/common/constants/mode";
 import { changeDifficult, changeMode } from "@/common/redux/slices/control";
+import { generateDataTyping } from "@/common/redux/slices/dataTyping";
 import { AppDispatch, RootState } from "@/common/redux/store";
 import { Difficult, TypingMode } from "@/common/types/enums";
 import { Text } from "lucide-react";
@@ -18,11 +19,17 @@ const QuotesMode = (props: Props) => {
 	const { mode, difficult } = useSelector((state: RootState) => state.control);
 
 	const changeDifficultQuote = (diff: Difficult) => {
-		return dispatch(changeDifficult(diff));
+		dispatch(changeDifficult(diff));
+		dispatch(generateDataTyping());
 	};
 
 	const getDifficult = (diff: Difficult) => {
 		return QuotesDifficultConstant.find((item) => item.value === diff)?.label;
+	};
+
+	const changeModeQuote = () => {
+		dispatch(changeMode(TypingMode.quote));
+		dispatch(generateDataTyping());
 	};
 
 	return (
@@ -32,7 +39,7 @@ const QuotesMode = (props: Props) => {
 		>
 			<HoverLabel label="Quote mode" className="h-full w-8">
 				<div
-					onClick={() => mode !== "quote" && dispatch(changeMode(TypingMode.quote))}
+					onClick={() => mode !== "quote" && changeModeQuote()}
 					className={`h-full w-8 flex justify-center items-center rounded-[5px] cursor-pointer duration-300 overflow-hidden group hover:overflow-visible
 				${mode === "quote" ? "bg-orange-200 text-orange-400" : "hover:bg-accent"}`}
 				>

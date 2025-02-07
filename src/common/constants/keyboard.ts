@@ -1,6 +1,17 @@
+import { IKeyboard } from "../types/types";
+
 export const ICON_SIZE = 16;
 
-export const keyboard_constant = [
+export const keycodes: number[] = [
+    192, 49, 50, 51, 52, 53, 54, 55, 56, 57, 48, 189, 187,
+    81, 87, 69, 82, 84, 89, 85, 73, 79, 80, 219, 221, 220,
+    65, 83, 68, 70, 71, 72, 74, 75, 76, 186, 222,
+    90, 88, 67, 86, 66, 78, 77, 188, 190, 191,
+    32
+]
+
+
+export const keyboard_constant: IKeyboard[][] = [
     [
         { key: "`", shift: "~", keycode: 192 },
         { key: "1", shift: "!", keycode: 49 },
@@ -13,8 +24,8 @@ export const keyboard_constant = [
         { key: "8", shift: "*", keycode: 56 },
         { key: "9", shift: "(", keycode: 57 },
         { key: "0", shift: ")", keycode: 48 },
-        { key: "-", shift: "_", keycode: 45 },
-        { key: "=", shift: "+", keycode: 61 }
+        { key: "-", shift: "_", keycode: 189 },
+        { key: "=", shift: "+", keycode: 187 }
     ],
     [
         { key: "q", shift: "Q", keycode: 81 },
@@ -27,9 +38,9 @@ export const keyboard_constant = [
         { key: "i", shift: "I", keycode: 73 },
         { key: "o", shift: "O", keycode: 79 },
         { key: "p", shift: "P", keycode: 80 },
-        { key: "[", shift: "{", keycode: 91 },
-        { key: "]", shift: "}", keycode: 93 },
-        { key: "\\", shift: "|", keycode: 92 },
+        { key: "[", shift: "{", keycode: 219 },
+        { key: "]", shift: "}", keycode: 221 },
+        { key: "\\", shift: "|", keycode: 220 },
     ],
     [
         { key: "a", shift: "A", keycode: 65 },
@@ -41,8 +52,8 @@ export const keyboard_constant = [
         { key: "j", shift: "J", keycode: 74 },
         { key: "k", shift: "K", keycode: 75 },
         { key: "l", shift: "L", keycode: 76 },
-        { key: ";", shift: ":", keycode: 59 },
-        { key: "'", shift: '"', keycode: 39 },
+        { key: ";", shift: ":", keycode: 186 },
+        { key: "'", shift: '"', keycode: 222 },
     ],
     [
         { key: "z", shift: "Z", keycode: 90 },
@@ -52,9 +63,9 @@ export const keyboard_constant = [
         { key: "b", shift: "B", keycode: 66 },
         { key: "n", shift: "N", keycode: 78 },
         { key: "m", shift: "M", keycode: 77 },
-        { key: ",", shift: "<", keycode: 44 },
-        { key: ".", shift: ">", keycode: 46 },
-        { key: "/", shift: "?", keycode: 47 },
+        { key: ",", shift: "<", keycode: 188 },
+        { key: ".", shift: ">", keycode: 190 },
+        { key: "/", shift: "?", keycode: 191 },
     ],
     [
         // space

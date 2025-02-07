@@ -46,6 +46,11 @@ const WordsMode = (props: Props) => {
 		setTotalCustom(Number(num));
 	};
 
+	const changeModeWord = () => {
+		dispatch(changeMode(TypingMode.word));
+		dispatch(generateDataTyping());
+	};
+
 	return (
 		<section
 			className={`p-[3.5px] rounded-[9px] h-[40px] translate-y-[1px] border duration-200 ease flex gap-2 items-center
@@ -53,7 +58,7 @@ const WordsMode = (props: Props) => {
 		>
 			<HoverLabel label="Word mode" className="h-full w-8">
 				<div
-					onClick={() => mode !== "word" && dispatch(changeMode(TypingMode.word))}
+					onClick={() => mode !== "word" && changeModeWord()}
 					className={`h-full w-8 flex justify-center items-center rounded-[5px] cursor-pointer duration-300 overflow-hidden group hover:overflow-visible
 					${mode === "word" ? "bg-orange-200 text-orange-400" : "hover:bg-accent"}`}
 				>

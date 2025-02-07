@@ -10,7 +10,6 @@ export const getWordsFromClient = async (payload: ControlState) => {
             limit_words: totalWords
         })
     if (error) console.log(error)
-    else console.log(data)
     return data;
 }
 
@@ -22,6 +21,5 @@ export const getQuoteFromClient = async (payload: ControlState) => {
             difficult_quote: difficult,
         })
     if (error) console.log(error)
-    else console.log(data)
     return data;
 }

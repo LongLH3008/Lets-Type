@@ -3,6 +3,7 @@
 import { ICON_SIZE } from "@/common/constants/keyboard";
 import { TimerConstant } from "@/common/constants/mode";
 import { changeMode, setTime } from "@/common/redux/slices/control";
+import { generateDataTyping } from "@/common/redux/slices/dataTyping";
 import { AppDispatch, RootState } from "@/common/redux/store";
 import { TypingMode } from "@/common/types/enums";
 import { AlarmClock, Check } from "lucide-react";
@@ -21,6 +22,7 @@ const TimerMode = () => {
 	const setTimer = (time: number) => {
 		dispatch(setTime(time));
 		if (second !== 0) setSecond(0);
+		// dispatch(generateDataTyping());
 	};
 
 	const changeValueSecondTimer = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -33,14 +35,19 @@ const TimerMode = () => {
 		setSecond(Number(num));
 	};
 
+	const changeModeTimer = () => {
+		dispatch(changeMode(TypingMode.timer));
+		dispatch(generateDataTyping());
+	};
+
 	return (
 		<section
 			className={`p-[3.5px] rounded-[9px] h-[40px] translate-y-[1px] border duration-200 ease flex gap-2 items-center
-		${mode === "timer" ? "border-orange-300 w-[92px]" : "w-[41px]"}`}
+		${mode === "timer" ? "border-orange-300 w-[90px]" : "w-[41px]"}`}
 		>
 			<HoverLabel label="Timer mode" className="h-full w-8">
 				<div
-					onClick={() => mode !== "timer" && dispatch(changeMode(TypingMode.timer))}
+					onClick={() => mode !== "timer" && changeModeTimer()}
 					className={`h-full w-8 flex justify-center items-center rounded-[5px] cursor-pointer duration-300 overflow-hidden group hover:overflow-visible
 				${mode === "timer" ? "bg-orange-200 text-orange-400" : "hover:bg-accent"}`}
 				>

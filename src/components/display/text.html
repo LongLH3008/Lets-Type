@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Typing Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+        }
+
+        .game-container {
+            width: 500px;
+            text-align: center;
+        }
+
+        .word-list {
+            font-size: 24px;
+            font-weight: bold;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            border-bottom: 2px solid #000;
+            padding-bottom: 10px;
+            max-width: 100%;
+            min-height: 80px;
+            height: 80px;
+            overflow-y: hidden;
+            transition: all 0.3s;
+        }
+
+        .word {
+            transition: all 0.3s;
+            opacity: 0.5;
+            display: inline-block;
+        }
+
+        .current {
+            color: green;
+            font-size: 28px;
+            font-weight: bold;
+            opacity: 1;
+        }
+
+        .completed {
+            opacity: 0.3;
+            color: gray;
+        }
+
+        .input-box {
+            font-size: 20px;
+            padding: 5px;
+            width: 100%;
+            text-align: center;
+            border: 2px solid #000;
+            outline: none;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="game-container">
+        <div id="word-list" class="word-list"></div>
+        <input type="text" id="input-box" class="input-box" autocomplete="off" autofocus>
+    </div>
+
+    <script>
+        const words = [
+            "hello", "world", "typing", "game", "challenge", "javascript", "developer", "keyboard", "fast",
+            "code", "practice", "speed", "skill", "test", "fun", "exercise", "learning", "improve", "accuracy",
+            "react", "vue", "angular", "node", "express", "mongodb", "backend", "frontend", "fullstack",
+            "html", "css", "tailwind", "bootstrap", "sass", "less", "responsive", "mobile", "desktop",
+            "typescript", "php", "wordpress", "plugin", "theme", "customize", "debug", "deploy", "production",
+            "hosting", "server", "database", "mysql", "api", "rest", "graphql", "json", "jwt", "authentication",
+            "authorization", "security", "performance", "optimization", "ui", "ux", "design", "prototype",
+            "testing", "jest", "cypress", "mocha", "chai", "integration", "unit", "component", "story", "animations"
+        ];
+
+        let currentIndex = 0;
+        const wordListDiv = document.getElementById("word-list");
+        const inputBox = document.getElementById("input-box");
+
+        function updateWordList() {
+            wordListDiv.innerHTML = words.map((word, index) =>
+                `<span class="word ${index === currentIndex ? 'current' : index < currentIndex ? 'completed' : ''}" id="word-${index}">${word}</span>`
+            ).join(" ");
+
+            // Cuộn xuống nếu từ hiện tại xuống dòng
+            setTimeout(() => {
+                const currentWordSpan = document.getElementById(`word-${currentIndex}`);
+                if (currentWordSpan) {
+                    currentWordSpan.scrollIntoView({ behavior: "smooth", block: "center", inline: "start" });
+                }
+            }, 100);
+        }
+
+        inputBox.addEventListener("input", () => {
+            const currentWord = words[currentIndex];
+            if (inputBox.value.trim() === currentWord) {
+                currentIndex++;
+                inputBox.value = ""; // Xóa input khi nhập đúng
+                if (currentIndex < words.length) {
+                    updateWordList();
+                } else {
+                    wordListDiv.innerHTML = "🎉 Hoàn thành!";
+                    inputBox.disabled = true;
+                }
+            }
+        });
+
+        updateWordList();
+    </script>
+</body>
+
+</html>

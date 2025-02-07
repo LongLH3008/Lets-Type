@@ -1,13 +1,8 @@
-"use client";
-
-import { keyboard_constant } from "@/common/constants/keyboard";
 import { checkIndexFinger, checkNormalKey, checkSpaceKey } from "@/common/functions/keyboard";
-import { RootState } from "@/common/redux/store";
-import { Key, KeyRow } from "@/common/types/types";
+import { IKey } from "@/common/types/types";
 import { motion } from "motion/react";
-import { useSelector } from "react-redux";
 
-const Key = ({ keyData, index }: { keyData: Key; index: number }) => {
+const Key = ({ keyData, index }: { keyData: IKey; index: number }) => {
 	const initital = {
 		opacity: 0,
 		translateZ: -100,
@@ -49,24 +44,4 @@ const Key = ({ keyData, index }: { keyData: Key; index: number }) => {
 	);
 };
 
-const Keyboard = () => {
-	const { keyboard } = useSelector((state: RootState) => state.control);
-
-	return (
-		<>
-			{keyboard && (
-				<section className={`grid grid-rows-${keyboard_constant.length} gap-2`}>
-					{keyboard_constant.map((keyrow: KeyRow, index: number) => (
-						<div key={index} className={`flex justify-center items-center gap-2`}>
-							{keyrow.map((key: Key, ind: number) => (
-								<Key keyData={key} index={ind} key={ind} />
-							))}
-						</div>
-					))}
-				</section>
-			)}
-		</>
-	);
-};
-
-export default Keyboard;
+export default Key;

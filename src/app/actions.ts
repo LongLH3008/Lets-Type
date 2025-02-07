@@ -1,7 +1,5 @@
 "use server";
 
-import { getRandomIndex } from "@/common/functions/keyboard";
-import { Difficult, TypingMode } from "@/common/types/enums";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { encodedRedirect } from "../common/lib/utils";
@@ -134,13 +132,4 @@ export const signOutAction = async () => {
   await supabase.auth.signOut();
   return redirect("/sign-in");
 };
-
-export async function getWords() {
-  const supabase = await createClient();
-  const limit = getRandomIndex(TypingMode.word, Difficult.Easy, 80);
-  const { data, error } = await supabase.from('Words').select('*').in('id', limit).eq('available', 'public').eq('active', 'active');
-  console.log(data?.length)
-  if (error) throw new Error(error.message);
-  return data;
-}
 
