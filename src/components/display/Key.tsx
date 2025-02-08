@@ -5,7 +5,7 @@ import { motion } from "motion/react";
 import { useSelector } from "react-redux";
 
 const Key = ({ keyData, keyboard, index }: { keyData: IKey; keyboard: boolean; index: number }) => {
-	const { pressedKey } = useSelector((state: RootState) => state.dataTyping);
+	const pressedKey = useSelector((state: RootState) => state.dataTyping.pressedKey);
 
 	const initital = {
 		opacity: 0,

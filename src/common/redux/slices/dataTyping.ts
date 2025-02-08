@@ -43,7 +43,6 @@ const handleTypedWord = (word: TypedWord[], index: number): TypedWord[] => {
 }
 
 const handleTypedLetter = (letter: TypedLetter[], typed: string): TypedLetter[] => {
-    console.log(typed);
     const currentLetter = letter.findIndex((e) => !e.active);
     const res = letter.map((e, index: number) => {
         if (currentLetter == index) {
@@ -72,10 +71,10 @@ const dataTyping = createSlice({
             state.typed[currentWord].letter = handleTypedLetter(state.typed[currentWord].letter, action.payload.typed);
             state.typed = handleTypedWord(state.typed, currentWord);
             state.pressedKey = action.payload.keycode;
-            // console.log(state.typed[currentWord].content, action.payload);
-            // console.log(state.typed[currentWord].letter)
+        },
+        resetPressKey: (state) => {
+            state.pressedKey = 0;
         }
-
     },
     extraReducers: (builder) => {
         builder.addCase(generateDataTyping.fulfilled, (state, action) => {
@@ -114,6 +113,6 @@ const dataTyping = createSlice({
     }
 })
 
-export const { typing } = dataTyping.actions;
+export const { typing, resetPressKey } = dataTyping.actions;
 export default dataTyping.reducer;
 

@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 import Letter from "./Letter";
 
 const Word = () => {
-	const { typed: words } = useSelector((state: RootState) => state.dataTyping);
+	const words = useSelector((state: RootState) => state.dataTyping.typed);
 
 	useEffect(() => {
 		const currentIndex = words.findIndex((e) => !e.active);

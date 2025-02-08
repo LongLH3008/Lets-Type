@@ -6,8 +6,9 @@ import { useSelector } from "react-redux";
 import Timer from "./Timer";
 
 const Stats = () => {
-	const { data, typed } = useSelector((state: RootState) => state.dataTyping);
-	const { mode } = useSelector((state: RootState) => state.control);
+	const data = useSelector((state: RootState) => state.dataTyping.data);
+	const typed = useSelector((state: RootState) => state.dataTyping.typed);
+	const mode = useSelector((state: RootState) => state.control.mode);
 
 	const checkTyped = typed.filter((item) => item.active == true);
 

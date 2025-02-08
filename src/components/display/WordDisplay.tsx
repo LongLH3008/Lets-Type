@@ -1,5 +1,6 @@
 "use client";
 
+import useActionKeyboard from "@/common/hooks/useActionKeyboard";
 import { generateDataTyping } from "@/common/redux/slices/dataTyping";
 import { AppDispatch } from "@/common/redux/store";
 import { useEffect } from "react";
@@ -8,6 +9,7 @@ import Word from "./Word";
 
 const WordDisplay = () => {
 	const dispatch = useDispatch<AppDispatch>();
+	useActionKeyboard();
 
 	useEffect(() => {
 		dispatch(generateDataTyping());

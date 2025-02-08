@@ -83,7 +83,6 @@
 }
 
 .press_key {
-	border-width: 2px;
 	animation: press_key 0.5s forwards ease;
 }
 

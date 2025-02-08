@@ -16,7 +16,7 @@ const Letter = (props: TypedLetter) => {
 	return (
 		<span
 			className={cn(
-				`border-b-2 border-b-transparent duration-200 ${letterColor()} ${letterCursor} ${isSpace}`
+				`border-b-2 border-b-transparent duration-200 mx-[0.5px] ${letterColor()} ${letterCursor} ${isSpace}`
 			)}
 		>
 			{letterContent}

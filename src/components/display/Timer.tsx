@@ -6,7 +6,8 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
 const Timer = () => {
-	const { timer, typing } = useSelector((state: RootState) => state.control);
+	const timer = useSelector((state: RootState) => state.control.timer);
+	const typing = useSelector((state: RootState) => state.control.typing);
 	const [time, setTime] = useState<number>(timer);
 
 	useEffect(() => {
