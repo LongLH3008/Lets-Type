@@ -8,7 +8,7 @@ import WordsMode from "./WordsMode";
 
 const Control = () => {
 	return (
-		<section className="w-full max-w-5xl grid grid-cols-3 *:flex *:items-center">
+		<section className="max-lg:hidden w-full max-w-5xl grid grid-cols-3 *:flex *:items-center">
 			<div className="justify-start gap-2">
 				<BackspaceSwitch />
 				<TimerMode />
