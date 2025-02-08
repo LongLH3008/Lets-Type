@@ -12,9 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "../ui/dropdown-menu";
 import HoverLabel from "./HoverLabel";
 
-type Props = {};
-
-const QuotesMode = (props: Props) => {
+const QuotesMode = () => {
 	const dispatch = useDispatch<AppDispatch>();
 	const { mode, difficult } = useSelector((state: RootState) => state.control);
 

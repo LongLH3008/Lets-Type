@@ -4,24 +4,14 @@ import { ICON_SIZE } from "@/common/constants/keyboard";
 import { Laptop, Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
-import { Button } from "../ui/button";
-import {
-	DropdownMenu,
-	DropdownMenuContent,
-	DropdownMenuRadioGroup,
-	DropdownMenuRadioItem,
-	DropdownMenuTrigger,
-} from "../ui/dropdown-menu";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "../ui/dropdown-menu";
 import HoverLabel from "./HoverLabel";
 
 const ThemeSwitcher = () => {
 	const [mounted, setMounted] = useState(false);
 	const { theme, setTheme } = useTheme();
 
-	// useEffect only runs on the client, so now we can safely show the UI
-	useEffect(() => {
-		setMounted(true);
-	}, []);
+	useEffect(() => setMounted(true), []);
 
 	if (!mounted) {
 		return null;
@@ -30,42 +20,44 @@ const ThemeSwitcher = () => {
 	return (
 		<HoverLabel label="Theme switcher">
 			<DropdownMenu>
-				<DropdownMenuTrigger asChild className="rounded-lg border">
-					<Button variant="ghost" size={"icon"}>
-						{theme === "light" ? (
-							<Sun
-								key="light"
-								size={ICON_SIZE}
-								className={"text-muted-foreground duration-300"}
-							/>
-						) : theme === "dark" ? (
-							<Moon
-								key="dark"
-								size={ICON_SIZE}
-								className={"text-muted-foreground duration-300"}
-							/>
-						) : (
-							<Laptop
-								key="system"
-								size={ICON_SIZE}
-								className={"text-muted-foreground duration-300"}
-							/>
-						)}
-					</Button>
+				<DropdownMenuTrigger asChild>
+					<div className="p-[3.5px] rounded-[9px] h-10 border flex gap-2 items-center overflow-hidden">
+						<span className="h-full bg-accent w-8 flex flex-col justify-center items-center rounded-[5px] cursor-pointer">
+							{theme === "light" ? (
+								<Sun
+									key="light"
+									size={ICON_SIZE}
+									className={"text-muted-foreground duration-300"}
+								/>
+							) : theme === "dark" ? (
+								<Moon
+									key="dark"
+									size={ICON_SIZE}
+									className={"text-muted-foreground duration-300"}
+								/>
+							) : (
+								<Laptop
+									key="system"
+									size={ICON_SIZE}
+									className={"text-muted-foreground duration-300"}
+								/>
+							)}
+						</span>
+					</div>
 				</DropdownMenuTrigger>
 				<DropdownMenuContent className="w-content" align="start">
-					<DropdownMenuRadioGroup value={theme} onValueChange={(e) => setTheme(e)}>
-						<DropdownMenuRadioItem className="flex gap-2" value="light">
-							<Sun size={ICON_SIZE} className="text-muted-foreground" /> <span>Light</span>
-						</DropdownMenuRadioItem>
-						<DropdownMenuRadioItem className="flex gap-2" value="dark">
-							<Moon size={ICON_SIZE} className="text-muted-foreground" /> <span>Dark</span>
-						</DropdownMenuRadioItem>
-						<DropdownMenuRadioItem className="flex gap-2" value="system">
-							<Laptop size={ICON_SIZE} className="text-muted-foreground" />{" "}
-							<span>System</span>
-						</DropdownMenuRadioItem>
-					</DropdownMenuRadioGroup>
+					<DropdownMenuItem className="flex gap-2 cursor-pointer" onClick={() => setTheme("light")}>
+						<Sun size={ICON_SIZE} className="text-muted-foreground" />
+					</DropdownMenuItem>
+					<DropdownMenuItem className="flex gap-2 cursor-pointer" onClick={() => setTheme("dark")}>
+						<Moon size={ICON_SIZE} className="text-muted-foreground" />
+					</DropdownMenuItem>
+					<DropdownMenuItem
+						className="flex gap-2 cursor-pointer"
+						onClick={() => setTheme("system")}
+					>
+						<Laptop size={ICON_SIZE} className="text-muted-foreground" />
+					</DropdownMenuItem>
 				</DropdownMenuContent>
 			</DropdownMenu>
 		</HoverLabel>

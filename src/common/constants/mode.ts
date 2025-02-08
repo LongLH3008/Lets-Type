@@ -14,10 +14,10 @@ export const TimerConstant: { label: string, value: number }[] = [
 ]
 
 export const QuotesDifficultConstant: { label: string, desc: string, value: Difficult }[] = [
-    { label: 'Super Hard', desc: 'Over 120 characters, includes special characters & numbs', value: Difficult.SuperHard },
-    { label: 'Hard', desc: 'Over 120 characters, includes numbs', value: Difficult.Hard },
-    { label: 'Medium', desc: 'Over 90 characters, includes numbs', value: Difficult.Medium },
-    { label: 'Easy', desc: 'Over 60 characters, includes numbs', value: Difficult.Easy },
+    { label: 'Super Hard', desc: 'Over 120 words, includes special characters & numbs', value: Difficult.SuperHard },
+    { label: 'Hard', desc: 'Over 120 words, includes numbs', value: Difficult.Hard },
+    { label: 'Medium', desc: 'Over 90 words, includes numbs', value: Difficult.Medium },
+    { label: 'Easy', desc: 'Over 60 words, includes numbs', value: Difficult.Easy },
 ]
 
 export const WordsDifficultConstant: { label: string, desc: string, value: Difficult }[] = [

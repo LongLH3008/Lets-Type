@@ -14,9 +14,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { Input } from "../ui/input";
 import HoverLabel from "./HoverLabel";
 
-type Props = {};
-
-const WordsMode = (props: Props) => {
+const WordsMode = () => {
 	const [totalCustom, setTotalCustom] = useState<number>(0);
 	const dispatch = useDispatch<AppDispatch>();
 	const { totalWords, difficult, mode } = useSelector((state: RootState) => state.control);

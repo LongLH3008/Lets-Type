@@ -22,7 +22,6 @@ const TimerMode = () => {
 	const setTimer = (time: number) => {
 		dispatch(setTime(time));
 		if (second !== 0) setSecond(0);
-		// dispatch(generateDataTyping());
 	};
 
 	const changeValueSecondTimer = (e: React.ChangeEvent<HTMLInputElement>) => {

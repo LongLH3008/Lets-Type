@@ -14,5 +14,6 @@ export interface ControlState {
 export interface DataTypingState {
     data: string[];
     typed: TypedWord[];
-    pressedKey: number
+    pressedKey: number;
+    scrollToViewWordIndex: number
 }

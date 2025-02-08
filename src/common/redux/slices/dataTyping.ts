@@ -8,7 +8,7 @@ import { DataTypingState } from "../types";
 // Thunks
 export const generateDataTyping = createAsyncThunk(
     'dataTyping/generateDataTyping',
-    async (_, { getState }) => {
+    async (_, { getState, dispatch }) => {
         const { control: payload } = getState() as RootState;
         const { mode } = payload;
         if (mode === TypingMode.quote) {
@@ -22,7 +22,6 @@ export const generateDataTyping = createAsyncThunk(
 export const backspaceAction = createAsyncThunk(
     'dataTyping/backspaceAction',
     (_, { getState }) => {
-        console.log('run')
         const { control } = getState() as RootState;
         const { backspace } = control;
         return backspace
@@ -33,6 +32,7 @@ const initialDataTypingState: DataTypingState = {
     data: [],
     typed: [],
     pressedKey: 0,
+    scrollToViewWordIndex: 0,
 }
 
 const checkCurrentWord = (word: TypedWord[]): number => {
@@ -41,15 +41,19 @@ const checkCurrentWord = (word: TypedWord[]): number => {
 }
 
 // Handle typing
-const handleTypedWord = (word: TypedWord[], index: number): TypedWord[] => {
-    const typedLetter = word[index].letter.filter((e) => e.active).length;
-    if (word[index].content.length !== typedLetter) return word;
+const handleTypedWord = (word: TypedWord[], index: number): { word: TypedWord[], scrollIndex: number } => {
+    const typedLetter = word[index].letter.filter((e) => e.active);
+
+    // Guarantee that is 10th word then scroll
+    const scrollIndex = typedLetter.length == 1 && index > 10 ? index : -1;
+
+    if (word[index].content.length !== typedLetter.length) return { word, scrollIndex };
     const res = word.map((e, ind: number) => {
         if (ind == index) return { ...e, active: true }
         if (ind == index + 1) return { ...e, letter: e.letter.map((lett, indLett) => indLett == 0 ? { ...lett, cursor: true } : lett) }
         return e
     });
-    return res;
+    return { word: res, scrollIndex };
 }
 
 const handleTypedLetter = (letter: TypedLetter[], typed: string): TypedLetter[] => {
@@ -76,7 +80,6 @@ const handleTypedLetter = (letter: TypedLetter[], typed: string): TypedLetter[] 
 const handleBackspace = (word: TypedWord[], indexCurrentWord: number): TypedWord[] => {
     const currentWord = word[indexCurrentWord];
     const typedLetter = currentWord.letter.filter((e) => e.active);
-    console.log(JSON.stringify(typedLetter))
     if (typedLetter.length == 0) return word
 
     const indexDeleteLetter = typedLetter.length - 1;
@@ -85,8 +88,6 @@ const handleBackspace = (word: TypedWord[], indexCurrentWord: number): TypedWord
         if (index == indexDeleteLetter + 1) return { ...lett, cursor: false };
         return lett
     })
-
-    console.log(JSON.stringify(letter))
 
     let res = word.map((e, index: number) => index == indexCurrentWord ? { ...e, letter } : e);
     return res;
@@ -99,7 +100,11 @@ const dataTyping = createSlice({
         typing: (state, action: PayloadAction<{ keycode: number, typed: string }>) => {
             const currentWord = checkCurrentWord(state.typed);
             state.typed[currentWord].letter = handleTypedLetter(state.typed[currentWord].letter, action.payload.typed);
-            state.typed = handleTypedWord(state.typed, currentWord);
+            const { word, scrollIndex } = handleTypedWord(state.typed, currentWord);
+            if (scrollIndex !== -1) {
+                state.scrollToViewWordIndex = scrollIndex;
+            }
+            state.typed = word;
             state.pressedKey = action.payload.keycode;
         },
         resetPressKey: (state) => {
@@ -116,6 +121,7 @@ const dataTyping = createSlice({
                 res = action.payload.map((item: Word, index: number) => index !== action.payload.length - 1 ? item.content + ' ' : item.content);
             }
             state.data = res;
+            state.scrollToViewWordIndex = 0;
 
             const initLetter = {
                 correct: false,
@@ -143,7 +149,6 @@ const dataTyping = createSlice({
             if (action.payload) {
                 const currentWord = checkCurrentWord(state.typed);
                 state.typed = handleBackspace(state.typed, currentWord);
-                console.log('backspace', state.typed[currentWord])
             }
         })
     }

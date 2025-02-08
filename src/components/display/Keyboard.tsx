@@ -1,11 +1,9 @@
 "use client";
 
-import { keyboard_constant, keycodes } from "@/common/constants/keyboard";
-import { resetPressKey, typing } from "@/common/redux/slices/dataTyping";
-import { AppDispatch, RootState } from "@/common/redux/store";
+import { keyboard_constant } from "@/common/constants/keyboard";
+import { RootState } from "@/common/redux/store";
 import { IKey, KeyRow } from "@/common/types/types";
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import Key from "./Key";
 
 const Keyboard = () => {

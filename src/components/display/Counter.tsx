@@ -5,7 +5,7 @@ import { TypingMode } from "@/common/types/enums";
 import { useSelector } from "react-redux";
 import Timer from "./Timer";
 
-const Stats = () => {
+const Counter = () => {
 	const data = useSelector((state: RootState) => state.dataTyping.data);
 	const typed = useSelector((state: RootState) => state.dataTyping.typed);
 	const mode = useSelector((state: RootState) => state.control.mode);
@@ -27,4 +27,4 @@ const Stats = () => {
 	);
 };
 
-export default Stats;
+export default Counter;
