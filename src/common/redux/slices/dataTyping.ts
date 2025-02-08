@@ -23,6 +23,7 @@ export const generateDataTyping = createAsyncThunk(
 const initialDataTypingState: DataTypingState = {
     data: [],
     typed: [],
+    pressedKey: 0,
 }
 
 const checkTypedWord = (word: TypedWord[]): number => {
@@ -42,6 +43,7 @@ const handleTypedWord = (word: TypedWord[], index: number): TypedWord[] => {
 }
 
 const handleTypedLetter = (letter: TypedLetter[], typed: string): TypedLetter[] => {
+    console.log(typed);
     const currentLetter = letter.findIndex((e) => !e.active);
     const res = letter.map((e, index: number) => {
         if (currentLetter == index) {
@@ -65,13 +67,13 @@ const dataTyping = createSlice({
     name: 'dataTyping',
     initialState: initialDataTypingState,
     reducers: {
-        typing: (state, action: PayloadAction<string>) => {
+        typing: (state, action: PayloadAction<{ keycode: number, typed: string }>) => {
             const currentWord = checkTypedWord(state.typed);
-            state.typed[currentWord].letter = handleTypedLetter(state.typed[currentWord].letter, action.payload);
+            state.typed[currentWord].letter = handleTypedLetter(state.typed[currentWord].letter, action.payload.typed);
             state.typed = handleTypedWord(state.typed, currentWord);
-
-            console.log(state.typed[currentWord].content, action.payload);
-            console.log(state.typed[currentWord].letter)
+            state.pressedKey = action.payload.keycode;
+            // console.log(state.typed[currentWord].content, action.payload);
+            // console.log(state.typed[currentWord].letter)
         }
 
     },

@@ -1,10 +1,12 @@
-import Keyboard from "./display/Keyboard";
-import Stats from "./display/Stats";
-import WordDisplay from "./display/WordDisplay";
+import dynamic from "next/dynamic";
+
+const Stats = dynamic(() => import("./display/Stats"), { ssr: true });
+const WordDisplay = dynamic(() => import("./display/WordDisplay"), { ssr: true });
+const Keyboard = dynamic(() => import("./display/Keyboard"), { ssr: true });
 
 const TypingScreen = () => {
 	return (
-		<section className={`h-full w-[1024px] grid grid-rows-5 gap-10`}>
+		<section className={`h-full w-[1024px] flex flex-col gap-10`}>
 			<Stats />
 			<WordDisplay />
 			<Keyboard />

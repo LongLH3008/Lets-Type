@@ -1,37 +1,33 @@
 import { checkIndexFinger, checkNormalKey, checkSpaceKey } from "@/common/functions/keyboard";
+import { RootState } from "@/common/redux/store";
 import { IKey } from "@/common/types/types";
 import { motion } from "motion/react";
+import { useSelector } from "react-redux";
 
-const Key = ({ keyData, index }: { keyData: IKey; index: number }) => {
+const Key = ({ keyData, keyboard, index }: { keyData: IKey; keyboard: boolean; index: number }) => {
+	const { pressedKey } = useSelector((state: RootState) => state.dataTyping);
+
 	const initital = {
 		opacity: 0,
-		translateZ: -100,
+		translateZ: -200,
 		translateY: 200,
 		scale: 2,
 		rotate: checkSpaceKey(keyData) ? 0 : -50,
 	};
 
 	const animate = { opacity: 1, translateZ: 0, translateY: 0, scale: 1, rotate: 0 };
-	const transition = { duration: 0.05 * index, ease: "easeOut" };
-
-	const whileTap = {
-		scale: 1.1,
-		translateY: -5,
-		translateZ: 10,
-		borderWidth: 2,
-		transition: { duration: 0.2 },
-	};
 
 	return (
 		<motion.div
+			initial={keyboard ? initital : animate}
+			animate={!keyboard ? initital : animate}
+			transition={{ duration: 0.05 * index, ease: "linear" }}
 			style={{ perspective: 200 }}
-			whileTap={whileTap}
-			initial={initital}
-			animate={animate}
-			transition={transition}
+			data-index={index}
 			className={`rounded-md text-sm border relative flex justify-center items-center size-[38px] overflow-hidden
-			${checkSpaceKey(keyData) && "w-[300px]"}`}
+			${checkSpaceKey(keyData) ? "w-[300px]" : "w-[38px]"} ${pressedKey == keyData.keycode ? "press_key" : ""}`}
 		>
+			<div></div>
 			{!checkNormalKey(keyData) && (
 				<span className="absolute top-[1px] left-1 text-[10px] opacity-75">{keyData.shift}</span>
 			)}

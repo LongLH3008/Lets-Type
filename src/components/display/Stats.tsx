@@ -12,7 +12,9 @@ const Stats = () => {
 	const checkTyped = typed.filter((item) => item.active == true);
 
 	return (
-		<div className={`flex w-full justify-center tracking-[2.5px] items-center opacity-30 text-xl font-[500]`}>
+		<div
+			className={`flex h-[20%] w-full justify-center tracking-[2.5px] items-center opacity-30 text-xl font-[500]`}
+		>
 			{mode == TypingMode.timer ? (
 				<Timer />
 			) : (

@@ -81,3 +81,17 @@
 		border-bottom-color: #fb923c;
 	}
 }
+
+.press_key {
+	border-width: 2px;
+	animation: press_key 0.5s forwards ease;
+}
+
+@keyframes press_key {
+	0%,
+	100% {
+	}
+	50% {
+		scale: 1.3;
+	}
+}

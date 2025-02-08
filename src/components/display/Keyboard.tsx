@@ -14,36 +14,34 @@ const Keyboard = () => {
 
 	useEffect(() => {
 		const handleKeyUp = (e: KeyboardEvent) => {
+			e.preventDefault();
 			const check = keycodes.find((item: number) => item === e.keyCode);
 			if (check) {
 				const value = keyboard_constant.flat().find((item) => item.keycode == e.keyCode);
 				let typed = e.shiftKey ? value?.shift : value?.key;
-				dispatch(typing(typed as string));
+				return dispatch(typing({ keycode: e.keyCode, typed: typed as string }));
 			}
 		};
 
-		window.addEventListener("keyup", handleKeyUp);
+		document.addEventListener("keyup", handleKeyUp);
 
-		// Cleanup event listener khi component unmount
 		return () => {
-			window.removeEventListener("keyup", handleKeyUp);
+			document.removeEventListener("keyup", handleKeyUp);
 		};
 	}, []);
 
 	return (
-		<>
-			{keyboard && (
-				<section className={`row-span-2 grid grid-rows-${keyboard_constant.length} gap-2`}>
-					{keyboard_constant.map((keyrow: KeyRow, index: number) => (
-						<div key={index} className={`flex justify-center items-center gap-2`}>
-							{keyrow.map((key: IKey, ind: number) => (
-								<Key keyData={key} index={ind} key={ind} />
-							))}
-						</div>
+		<section
+			className={`${keyboard ? "h-[40%]" : "h-[20%] opacity-0"} duration-300 grid grid-rows-${keyboard_constant.length} gap-2`}
+		>
+			{keyboard_constant.map((keyrow: KeyRow, index: number) => (
+				<div key={index} className={`flex justify-center items-center gap-2`}>
+					{keyrow.map((key: IKey, ind: number) => (
+						<Key keyboard={keyboard} keyData={key} index={ind} key={ind} />
 					))}
-				</section>
-			)}
-		</>
+				</div>
+			))}
+		</section>
 	);
 };
 
