@@ -8,6 +8,7 @@ export interface ControlState {
     totalWords: number;
     difficult: Difficult
     typing: boolean
+    backspace: boolean
 }
 
 export interface DataTypingState {

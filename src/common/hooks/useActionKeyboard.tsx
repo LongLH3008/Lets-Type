@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { keyboard_constant, keycodes } from "../constants/keyboard";
-import { resetPressKey, typing } from "../redux/slices/dataTyping";
+import { backspaceAction, resetPressKey, typing } from "../redux/slices/dataTyping";
 import { AppDispatch } from "../redux/store";
 
 const useActionKeyboard = () => {
@@ -11,6 +11,11 @@ const useActionKeyboard = () => {
 	useEffect(() => {
 		const handleKeyUp = (e: KeyboardEvent) => {
 			e.preventDefault();
+
+			if (e.key === "Backspace") {
+				return dispatch(backspaceAction());
+			}
+
 			const check = keycodes.find((item: number) => item === e.keyCode);
 			if (check) {
 				const value = keyboard_constant.flat().find((item) => item.keycode == e.keyCode);

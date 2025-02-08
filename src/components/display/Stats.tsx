@@ -14,7 +14,7 @@ const Stats = () => {
 
 	return (
 		<div
-			className={`flex h-[20%] w-full justify-center tracking-[2.5px] items-center opacity-30 text-xl font-[500]`}
+			className={`flex h-[20%] w-full justify-center tracking-[2.5px] items-center text-foreground/40 text-xl font-[500]`}
 		>
 			{mode == TypingMode.timer ? (
 				<Timer />

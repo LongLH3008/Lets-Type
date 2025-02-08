@@ -27,7 +27,6 @@ export type TypedLetter = {
     active: boolean,
     correct: boolean,
     typed: string,
-    keycode: number
 }
 
 export type TypedWord = {

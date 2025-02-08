@@ -19,6 +19,15 @@ export const generateDataTyping = createAsyncThunk(
     }
 );
 
+export const backspaceAction = createAsyncThunk(
+    'dataTyping/backspaceAction',
+    (_, { getState }) => {
+        console.log('run')
+        const { control } = getState() as RootState;
+        const { backspace } = control;
+        return backspace
+    })
+
 // Slice
 const initialDataTypingState: DataTypingState = {
     data: [],
@@ -26,11 +35,12 @@ const initialDataTypingState: DataTypingState = {
     pressedKey: 0,
 }
 
-const checkTypedWord = (word: TypedWord[]): number => {
+const checkCurrentWord = (word: TypedWord[]): number => {
     const currentWord = word.findIndex((e) => !e.active);
     return currentWord
 }
 
+// Handle typing
 const handleTypedWord = (word: TypedWord[], index: number): TypedWord[] => {
     const typedLetter = word[index].letter.filter((e) => e.active).length;
     if (word[index].content.length !== typedLetter) return word;
@@ -62,12 +72,32 @@ const handleTypedLetter = (letter: TypedLetter[], typed: string): TypedLetter[] 
     return res
 }
 
+// Handle backspace
+const handleBackspace = (word: TypedWord[], indexCurrentWord: number): TypedWord[] => {
+    const currentWord = word[indexCurrentWord];
+    const typedLetter = currentWord.letter.filter((e) => e.active);
+    console.log(JSON.stringify(typedLetter))
+    if (typedLetter.length == 0) return word
+
+    const indexDeleteLetter = typedLetter.length - 1;
+    const letter = currentWord.letter.map((lett, index: number) => {
+        if (index == indexDeleteLetter) return { ...lett, cursor: true, active: false, typed: '', correct: false };
+        if (index == indexDeleteLetter + 1) return { ...lett, cursor: false };
+        return lett
+    })
+
+    console.log(JSON.stringify(letter))
+
+    let res = word.map((e, index: number) => index == indexCurrentWord ? { ...e, letter } : e);
+    return res;
+}
+
 const dataTyping = createSlice({
     name: 'dataTyping',
     initialState: initialDataTypingState,
     reducers: {
         typing: (state, action: PayloadAction<{ keycode: number, typed: string }>) => {
-            const currentWord = checkTypedWord(state.typed);
+            const currentWord = checkCurrentWord(state.typed);
             state.typed[currentWord].letter = handleTypedLetter(state.typed[currentWord].letter, action.payload.typed);
             state.typed = handleTypedWord(state.typed, currentWord);
             state.pressedKey = action.payload.keycode;
@@ -91,7 +121,6 @@ const dataTyping = createSlice({
                 correct: false,
                 active: false,
                 typed: '',
-                keycode: 0
             }
 
             const words: TypedWord[] = res.map((item: string, indWord: number) => {
@@ -109,6 +138,13 @@ const dataTyping = createSlice({
         })
         builder.addCase(generateDataTyping.rejected, (state, action) => {
             console.log(action.payload)
+        })
+        builder.addCase(backspaceAction.fulfilled, (state, action) => {
+            if (action.payload) {
+                const currentWord = checkCurrentWord(state.typed);
+                state.typed = handleBackspace(state.typed, currentWord);
+                console.log('backspace', state.typed[currentWord])
+            }
         })
     }
 })

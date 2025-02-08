@@ -61,7 +61,7 @@
 
 @layer base {
 	* {
-		@apply border-border;
+		@apply border-border font-mono;
 	}
 	body {
 		@apply bg-background text-foreground;
@@ -69,21 +69,20 @@
 }
 
 .cursor_active {
-	border-bottom: 2px solid transparent;
 	animation: cursor_active 1s infinite;
 }
 
 @keyframes cursor_active {
 	from {
-		border-bottom-color: transparent;
+		border-left-color: transparent;
 	}
 	to {
-		border-bottom-color: #fb923c;
+		border-left-color: #fb923c;
 	}
 }
 
 .press_key {
-	animation: press_key 0.5s forwards ease;
+	animation: press_key 0.3s forwards ease;
 }
 
 @keyframes press_key {
@@ -91,6 +90,6 @@
 	100% {
 	}
 	50% {
-		scale: 1.3;
+		scale: 1.15;
 	}
 }

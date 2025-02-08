@@ -1,3 +1,4 @@
+import BackspaceSwitch from "./BackspaceSwitch";
 import KeyboardSwitch from "./KeyboardSwitch";
 import QuotesMode from "./QuotesMode";
 import Reload from "./Reload";
@@ -9,6 +10,7 @@ const Control = () => {
 	return (
 		<section className="w-full max-w-5xl grid grid-cols-3 *:flex *:items-center">
 			<div className="justify-start gap-2">
+				<BackspaceSwitch />
 				<TimerMode />
 				<QuotesMode />
 				<WordsMode />

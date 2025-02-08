@@ -5,7 +5,7 @@ import { TypedLetter } from "@/common/types/types";
 
 const Letter = (props: TypedLetter) => {
 	const letterColor = () => {
-		if (!props.typed) return "text-foreground/30";
+		if (!props.typed) return "text-foreground/20";
 		return props.correct ? "text-orange-400" : "text-foreground/50 border-b-foreground/50";
 	};
 
@@ -16,7 +16,7 @@ const Letter = (props: TypedLetter) => {
 	return (
 		<span
 			className={cn(
-				`border-b-2 border-b-transparent duration-200 mx-[0.5px] ${letterColor()} ${letterCursor} ${isSpace}`
+				`border-b border-r-[0.5px] border-l-2 border-transparent font-[500] duration-200 ${letterColor()} ${letterCursor} ${isSpace}`
 			)}
 		>
 			{letterContent}

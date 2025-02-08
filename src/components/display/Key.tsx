@@ -15,19 +15,25 @@ const Key = ({ keyData, keyboard, index }: { keyData: IKey; keyboard: boolean; i
 		rotate: checkSpaceKey(keyData) ? 0 : -50,
 	};
 
-	const animate = { opacity: 1, translateZ: 0, translateY: 0, scale: 1, rotate: 0 };
+	const animate = {
+		opacity: 1,
+		translateZ: 0,
+		translateY: 0,
+		scale: 1,
+		rotate: 0,
+		transition: { duration: 0.05 * index, ease: "linear" },
+	};
 
 	return (
 		<motion.div
 			initial={keyboard ? initital : animate}
 			animate={!keyboard ? initital : animate}
-			transition={{ duration: 0.05 * index, ease: "linear" }}
 			style={{ perspective: 200 }}
 			data-index={index}
-			className={`rounded-md text-sm border relative flex justify-center items-center size-[38px] overflow-hidden
-			${checkSpaceKey(keyData) ? "w-[300px]" : "w-[38px]"} ${pressedKey == keyData.keycode ? "press_key" : ""}`}
+			className={`rounded-md text-sm font-[500] border relative flex justify-center items-center size-[38px] overflow-hidden
+			${checkSpaceKey(keyData) ? "w-[300px]" : "w-[38px]"}
+			${pressedKey == keyData.keycode ? "press_key border-orange-400 text-orange-400" : "text-foreground/40 border-foreground/10"}`}
 		>
-			<div></div>
 			{!checkNormalKey(keyData) && (
 				<span className="absolute top-[1px] left-1 text-[10px] opacity-75">{keyData.shift}</span>
 			)}
@@ -35,7 +41,12 @@ const Key = ({ keyData, keyboard, index }: { keyData: IKey; keyboard: boolean; i
 				<span className="absolute left-1/2 -translate-x-1/2 bottom-1 border-b h-1 w-1/3"></span>
 			)}
 			{checkNormalKey(keyData) ? keyData.shift : keyData.key}
-			{checkSpaceKey(keyData) && <span className="h-1 border-b w-1/3 translate-y-2"></span>}
+			{checkSpaceKey(keyData) && (
+				<span
+					className={`${pressedKey == keyData.keycode ? "border-orange-400" : "border-foreground/10"}
+					h-1 border-b-2 w-1/3 translate-y-2`}
+				></span>
+			)}
 		</motion.div>
 	);
 };
