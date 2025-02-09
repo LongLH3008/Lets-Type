@@ -1,6 +1,6 @@
-import { Difficult, TypingMode } from "@/common/types/enums";
+import { Difficult, TypingMode } from "@/common/types/control__enums";
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { ControlState } from "../types";
+import { ControlState } from "../../types/redux_initialstate_types";
 
 const initialStateControl: ControlState = {
     keyboard: false,

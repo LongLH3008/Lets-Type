@@ -1,11 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit';
 import control from './slices/control';
-import dataTyping from './slices/dataTyping';
+import stats from './slices/stats';
+import typing from './slices/typing';
 
 export const store = configureStore({
     reducer: {
         control,
-        dataTyping
+        typing,
+        stats,
     },
 });
 

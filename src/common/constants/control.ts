@@ -1,4 +1,6 @@
-import { Difficult } from "../types/enums"
+import { Difficult } from "../types/control__enums";
+
+export const ICON_SIZE = 16;
 
 export const TotalWordsMode: { label: string, value: number }[] = [
     { label: '120 words', value: 120 },

@@ -1,6 +1,6 @@
 "use client";
 
-import { ICON_SIZE } from "@/common/constants/keyboard";
+import { ICON_SIZE } from "@/common/constants/control";
 import { toggleKeyboard } from "@/common/redux/slices/control";
 import { AppDispatch, RootState } from "@/common/redux/store";
 import { Keyboard, KeyboardOff } from "lucide-react";
@@ -15,16 +15,12 @@ const KeyboardSwitch = () => {
 
 	return (
 		<HoverLabel label={`Turn ${keyboard ? "off" : "on"} keyboard`}>
-			<motion.div
-				whileHover={{ scale: 1.2 }}
-				whileTap={{ scale: 0.8 }}
-				className="w-fit h-fit translate-y-[1px] overflow-hidden relative group hover:overflow-visible"
-			>
+			<motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.8 }}>
 				<Button
 					onClick={() => dispatch(toggleKeyboard())}
 					variant={"ghost"}
 					size={"icon"}
-					className="relative border rounded-lg cursor-pointer overflow-hidden"
+					className="relative cursor-pointer overflow-hidden"
 				>
 					<Keyboard
 						size={ICON_SIZE}

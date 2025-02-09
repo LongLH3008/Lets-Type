@@ -1,12 +1,10 @@
-"use client";
-
 import { cn } from "@/common/lib/utils";
-import { TypedLetter } from "@/common/types/types";
+import { TypedCharacter } from "@/common/types/typing__types";
 
-const Letter = (props: TypedLetter) => {
+const Letter = (props: TypedCharacter) => {
 	const letterColor = () => {
 		if (!props.typed) return "text-foreground/20";
-		return props.correct ? "text-orange-400" : "text-foreground/50 border-b-foreground/50";
+		return props.correct ? "text-foreground/70" : "border-b-foreground/50";
 	};
 
 	const letterCursor = props.cursor ? "cursor_active" : "";
@@ -16,7 +14,7 @@ const Letter = (props: TypedLetter) => {
 	return (
 		<span
 			className={cn(
-				`border-b border-r-[0.5px] border-l-2 border-transparent font-[500] duration-200 ${letterColor()} ${letterCursor} ${isSpace}`
+				`text-foreground/20 border-b border-r-[0.5px] border-l-2 border-transparent font-[500] duration-200 ${letterColor()} ${letterCursor} ${isSpace}`
 			)}
 		>
 			{letterContent}

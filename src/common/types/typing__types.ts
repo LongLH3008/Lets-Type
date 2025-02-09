@@ -1,13 +1,5 @@
 import { UUID } from "crypto";
-import { Active, Available, Difficult } from "./enums";
-
-export type KeyRow = IKey[];
-
-export interface IKey {
-    key: string;
-    shift: string
-    keycode: number
-}
+import { Active, Available, Difficult } from "./control__enums";
 
 export interface Word {
     id: number;
@@ -21,22 +13,17 @@ export interface Word {
     author: UUID
 }
 
-export type TypedLetter = {
+export type TypedCharacter = {
     cursor: boolean,
     content: string,
     active: boolean,
     correct: boolean,
     typed: string,
+    edited: boolean,
 }
 
 export type TypedWord = {
     active: boolean,
     content: string,
-    letter: TypedLetter[];
-}
-
-export interface IKeyboard {
-    key: string,
-    shift: string,
-    keycode: number
+    character: TypedCharacter[];
 }

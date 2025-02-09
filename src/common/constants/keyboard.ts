@@ -1,6 +1,5 @@
-import { IKeyboard } from "../types/types";
+import { IKeyboard } from "../types/typing__types";
 
-export const ICON_SIZE = 16;
 
 export const keycodes: number[] = [
     192, 49, 50, 51, 52, 53, 54, 55, 56, 57, 48, 189, 187,

@@ -1,11 +1,10 @@
 "use client";
 
-import { ICON_SIZE } from "@/common/constants/keyboard";
-import { TotalWordsMode, WordsDifficultConstant } from "@/common/constants/mode";
+import { ICON_SIZE, TotalWordsMode, WordsDifficultConstant } from "@/common/constants/control";
 import { changeDifficult, changeMode, setTotalWord } from "@/common/redux/slices/control";
-import { generateDataTyping } from "@/common/redux/slices/dataTyping";
+import { generateDataTyping } from "@/common/redux/slices/typing";
 import { AppDispatch, RootState } from "@/common/redux/store";
-import { Difficult, TypingMode } from "@/common/types/enums";
+import { Difficult, TypingMode } from "@/common/types/control__enums";
 import { CaseLower, Check } from "lucide-react";
 import { motion } from "motion/react";
 import { useState } from "react";

@@ -1,6 +1,6 @@
 "use client";
 
-import { ICON_SIZE } from "@/common/constants/keyboard";
+import { ICON_SIZE } from "@/common/constants/control";
 import { setBackspace } from "@/common/redux/slices/control";
 import { AppDispatch, RootState } from "@/common/redux/store";
 import { Delete } from "lucide-react";

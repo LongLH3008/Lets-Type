@@ -1,7 +1,7 @@
 "use client";
 
-import { ICON_SIZE } from "@/common/constants/keyboard";
-import { generateDataTyping } from "@/common/redux/slices/dataTyping";
+import { ICON_SIZE } from "@/common/constants/control";
+import { generateDataTyping } from "@/common/redux/slices/typing";
 import { AppDispatch, RootState } from "@/common/redux/store";
 import { RotateCw } from "lucide-react";
 import { motion } from "motion/react";
@@ -18,7 +18,7 @@ const Reload = () => {
 	const reload = () => {
 		setIsReload(true);
 		dispatch(generateDataTyping());
-		setTimeout(() => setIsReload(false), 400);
+		setTimeout(() => setIsReload(false), 300);
 	};
 
 	return (
@@ -29,11 +29,11 @@ const Reload = () => {
 					onClick={reload}
 					variant={"ghost"}
 					size={"icon"}
-					className="border rounded-lg cursor-pointer"
+					className="cursor-pointer"
 				>
 					<RotateCw
 						size={ICON_SIZE}
-						className={`text-muted-foreground ${isReload && "animate-spin opacity-30"} ease-linear duration-300`}
+						className={`text-muted-foreground ${isReload && "animate-spin opacity-30"} duration-300`}
 					/>
 				</Button>
 			</motion.div>

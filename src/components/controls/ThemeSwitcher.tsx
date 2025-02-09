@@ -1,6 +1,6 @@
 "use client";
 
-import { ICON_SIZE } from "@/common/constants/keyboard";
+import { ICON_SIZE } from "@/common/constants/control";
 import { Laptop, Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";

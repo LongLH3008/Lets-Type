@@ -1,11 +1,10 @@
 "use client";
 
-import { ICON_SIZE } from "@/common/constants/keyboard";
-import { TimerConstant } from "@/common/constants/mode";
+import { ICON_SIZE, TimerConstant } from "@/common/constants/control";
 import { changeMode, setTime } from "@/common/redux/slices/control";
-import { generateDataTyping } from "@/common/redux/slices/dataTyping";
+import { generateDataTyping } from "@/common/redux/slices/typing";
 import { AppDispatch, RootState } from "@/common/redux/store";
-import { TypingMode } from "@/common/types/enums";
+import { TypingMode } from "@/common/types/control__enums";
 import { AlarmClock, Check } from "lucide-react";
 import { motion } from "motion/react";
 import { useState } from "react";
