@@ -25,8 +25,9 @@ const useActionKeyboard = () => {
 			if (check) {
 				const value = keyboard_constant.flat().find((item) => item.keycode == e.keyCode);
 				let typed = e.shiftKey ? value?.shift : value?.key;
-				dispatch(presskeyAction({ keycode: e.keyCode, typed: typed as string }));
-				dispatch(checkFinished());
+				dispatch(presskeyAction({ keycode: e.keyCode, typed: typed as string })).then(() => {
+					dispatch(checkFinished());
+				});
 			}
 
 			timeout = setTimeout(() => {

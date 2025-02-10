@@ -4,7 +4,7 @@ import { TypedWord } from "@/common/types/typing__types";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { StatsState } from "../../types/redux_initialstate_types";
 import { RootState } from "../store";
-import { generateDataTyping, presskeyAction } from "./typing";
+import { backspaceAction, generateDataTyping, presskeyAction } from "./typing";
 
 const initialStatsState: StatsState = {
     wpm: '0.00',
@@ -65,10 +65,18 @@ export const calcWpm = createAsyncThunk(
 export const checkFinished = createAsyncThunk(
     'checkFinished/stats', (_, { getState }) => {
         const { typing: { typed } } = getState() as RootState;
-        const checkLastTypedWord = typed.findLastIndex((word) => word.active);
-        if (checkLastTypedWord !== typed.length - 1) return false;
-        const checkLastTypedCharacter = typed[checkLastTypedWord].character.findLastIndex((char) => char.active);
-        return checkLastTypedCharacter == typed[checkLastTypedWord].character.length - 1
+
+        const lastTypedWordIndex = typed.findLastIndex((word) => word.active);
+        if (lastTypedWordIndex !== typed.length - 1) return false;
+
+        const theLastChars = typed[lastTypedWordIndex].character
+        console.log(theLastChars, lastTypedWordIndex);
+        const checkLastWordIsCorrect = theLastChars.filter((char) => char.correct).length === theLastChars.length;
+        if (checkLastWordIsCorrect) return true;
+
+        const lastTypedCharIndex = theLastChars.filter((char) => char.active)
+        const checkLastWordIsFinished = lastTypedCharIndex.length === theLastChars.length + 1
+        return checkLastWordIsFinished;
     })
 
 // Slice
@@ -93,7 +101,7 @@ const stats = createSlice({
             state.wpm = action.payload
         })
         builder.addCase(presskeyAction.fulfilled, (state) => {
-            if (state.started == 0) state.started = Date.now();
+            if (state.started == 0 && state.ended == 0) state.started = Date.now();
         })
         builder.addCase(generateDataTyping.fulfilled, (state) => {
             Object.assign(state, initialStatsState)
@@ -103,8 +111,11 @@ const stats = createSlice({
                 state.ended = Date.now();
             }
         })
+        builder.addCase(backspaceAction.fulfilled, (state, action) => {
+            if (action.payload) state.backspace++;
+        })
     }
 })
 
-export const { } = stats.actions
+export const { ended } = stats.actions
 export default stats.reducer

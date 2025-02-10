@@ -1,4 +1,4 @@
-import { IKeyboard } from "../types/typing__types";
+import { IKeyboard } from "../types/keyboard__types"
 
 
 export const keycodes: number[] = [

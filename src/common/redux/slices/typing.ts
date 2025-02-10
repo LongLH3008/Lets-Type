@@ -4,6 +4,7 @@ import { TypingState } from "@/common/types/redux_initialstate_types";
 import { TypedCharacter, TypedWord, Word } from "@/common/types/typing__types";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../store";
+import { ended } from "./stats";
 
 
 const checkCurrentWord = (word: TypedWord[]): number => {
@@ -14,8 +15,6 @@ const checkCurrentWord = (word: TypedWord[]): number => {
 // Handle typing
 const handleTypedWord = (word: TypedWord[], index: number): TypedWord[] => {
     const typedCharacter = word[index].character.filter((e) => e.active);
-
-    const scrollIndex = typedCharacter.length == 1 ? index : -1;
 
     if (word[index].content.length !== typedCharacter.length) return word
     const res = word.map((e, ind: number) => {
@@ -59,7 +58,7 @@ const handleBackspace = (words: TypedWord[], indexCurrentWord: number): TypedWor
         return char
     })
 
-    let res = words.map((e, index: number) => index == indexCurrentWord ? { ...e, character } : e);
+    let res = words.map((e, index: number) => index == indexCurrentWord ? { ...e, character, active: false } : e);
     return res;
 }
 
@@ -88,9 +87,13 @@ export const backspaceAction = createAsyncThunk(
 export const presskeyAction = createAsyncThunk(
     'typing/presskeyAction',
     (payload:
-        { keycode: number, typed: string },
+        { keycode: number, typed: string }, { getState, dispatch }
     ): { keycode: number, typed: string } => {
-        return payload;
+        const { typing: { typed } } = getState() as RootState;
+        if (typed.filter((word) => word.active).length === typed.length) {
+            dispatch(ended());
+        }
+        return payload
     })
 
 // Slice
@@ -146,7 +149,11 @@ const typing = createSlice({
         builder.addCase(backspaceAction.fulfilled, (state, action) => {
             if (action.payload) {
                 const currentWord = checkCurrentWord(state.typed);
-                state.typed = handleBackspace(state.typed, currentWord);
+                if (currentWord == -1) {
+                    state.typed = handleBackspace(state.typed, state.typed.length - 1);
+                } else {
+                    state.typed = handleBackspace(state.typed, currentWord);
+                }
             }
         })
         builder.addCase(presskeyAction.fulfilled, (state, action) => {
@@ -154,6 +161,7 @@ const typing = createSlice({
             const currentWord = state.typed[currentWordIndex]
             if (!currentWord) return;
             state.typed[currentWordIndex].character = handleTypedCharacter(state.typed[currentWordIndex].character, action.payload.typed);
+
             if (currentWord.character.filter((char) => char.active).length == currentWord.content.length) {
                 state.scrollToViewWordIndex = currentWordIndex + 1;
             }

@@ -1,22 +1,31 @@
 import { formatTimer } from "@/common/functions/control";
-import { RootState } from "@/common/redux/store";
+import { ended } from "@/common/redux/slices/stats";
+import { AppDispatch, RootState } from "@/common/redux/store";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const Timer = () => {
 	const timer = useSelector((state: RootState) => state.control.timer);
 	const started = useSelector((state: RootState) => state.stats.started);
 	const [time, setTime] = useState<number>(timer);
 
+	const dispatch = useDispatch<AppDispatch>();
+
 	useEffect(() => {
 		setTime(timer);
-	}, [timer]);
+	}, [timer, started]);
 
 	useEffect(() => {
-		if (time === 0 || started == 0) return;
-
+		if (started == 0) return;
 		const intervalTime = setInterval(() => {
-			setTime((prevTime) => Math.max(prevTime - 1, 0));
+			setTime((prevTime) => {
+				if (prevTime <= 1) {
+					dispatch(ended());
+					clearInterval(intervalTime);
+					return 0;
+				}
+				return prevTime - 1;
+			});
 		}, 1000);
 
 		return () => clearInterval(intervalTime);
