@@ -1,5 +1,5 @@
 import DeviceUnsupported from "@/components/DeviceUnsupported";
-import Play from "@/pages/Play";
+import Play from "@/page/Play";
 
 export default function Home() {
 	return (

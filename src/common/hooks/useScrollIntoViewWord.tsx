@@ -1,10 +1,9 @@
 import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../redux/store";
+import { useSelector } from "react-redux";
+import { RootState } from "../redux/store";
 
 const ScrollIntoViewWord = (props: { container: React.RefObject<HTMLDivElement | null> }) => {
 	const scrollIndex = useSelector((state: RootState) => state.typing.scrollToViewWordIndex);
-	const dispatch = useDispatch<AppDispatch>();
 
 	useEffect(() => {
 		if (scrollIndex === -1) return;
