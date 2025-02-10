@@ -6,7 +6,6 @@ import { generateDataTyping } from "@/common/redux/slices/typing";
 import { AppDispatch, RootState } from "@/common/redux/store";
 import { Difficult, TypingMode } from "@/common/types/control__enums";
 import { CaseLower, Check } from "lucide-react";
-import { motion } from "motion/react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "../ui/dropdown-menu";
@@ -68,12 +67,7 @@ const WordsMode = () => {
 			</HoverLabel>
 			{mode === "word" && (
 				<div className="h-full w-[128px]">
-					<motion.div
-						initial={{ opacity: 0, scale: 0.7 }}
-						animate={{ opacity: 1, scale: 1 }}
-						transition={{ duration: 0.35 }}
-						className="h-full flex justify-end items-center gap-1"
-					>
+					<div className="h-full flex justify-end items-center gap-1">
 						<span className="h-3/4 w-[1px] bg-orange-200 mr-1"></span>
 						<HoverLabel label="Total" className="h-full w-8">
 							<DropdownMenu>
@@ -147,7 +141,7 @@ const WordsMode = () => {
 								</DropdownMenuContent>
 							</DropdownMenu>
 						</HoverLabel>
-					</motion.div>
+					</div>
 				</div>
 			)}
 		</section>

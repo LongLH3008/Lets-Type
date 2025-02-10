@@ -1,5 +1,7 @@
+import { TypedWord } from "./typing__types";
+
 export interface StatsTypedWord {
-    correct: number;
-    incorrect: number;
-    edited: number
+    correct: TypedWord[];
+    incorrect: TypedWord[];
+    edited: TypedWord[]
 }

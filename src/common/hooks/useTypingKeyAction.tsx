@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { keyboard_constant, keycodes } from "../constants/keyboard";
-import { checkFinished } from "../redux/slices/stats";
+import { calcStats, checkFinished } from "../redux/slices/stats";
 import { backspaceAction, presskeyAction } from "../redux/slices/typing";
 import { AppDispatch, RootState } from "../redux/store";
 
@@ -28,7 +28,6 @@ const useTypingKeyAction = (props: Props) => {
 			if (!check) return;
 
 			const key = props.keys.current.find((key) => key?.id.split("-")[1] == `${e.keyCode}`);
-			console.log(check, key);
 			if (!key) return;
 
 			if (timeoutRefs.current.has(e.keyCode)) {
@@ -41,7 +40,7 @@ const useTypingKeyAction = (props: Props) => {
 			const value = keyboard_constant.flat().find((item) => item.keycode == e.keyCode);
 			let typed = e.shiftKey ? value?.shift : value?.key;
 			dispatch(presskeyAction({ keycode: e.keyCode, typed: typed as string })).then(() => {
-				dispatch(checkFinished());
+				dispatch(checkFinished()).then(() => dispatch(calcStats()));
 			});
 
 			const timeout = setTimeout(() => {

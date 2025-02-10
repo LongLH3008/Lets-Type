@@ -8,9 +8,9 @@ import { backspaceAction, generateDataTyping, presskeyAction } from "./typing";
 
 const initialStatsState: StatsState = {
     wpm: '0.00',
-    correct: 0,
-    incorrect: 0,
-    edited: 0,
+    correct: [],
+    incorrect: [],
+    edited: [],
     started: 0,
     ended: 0,
     accuracy: 0,
@@ -24,31 +24,32 @@ const handleCalcWpm = (correct_characters: number, duration: number): number => 
     return wpm;
 }
 
-const checkTypedWord = (
-    check: Partial<keyof StatsTypedWord>,
-    typedWord: TypedWord): boolean => {
-    const characters = typedWord.character
-    if (check === 'edited') {
-        const checkChars = characters.filter((e) => e.edited).length;
-        return checkChars > 1;
+const statsTypedWord = (typedWord: TypedWord[]): StatsTypedWord => {
+    const words = typedWord.filter((word) => word.active);
+    let calcWord: StatsTypedWord = { correct: [], edited: [], incorrect: [] }
+    for (const word of words) {
+        const chars = word.character
+        const edited = chars.find((char) => char.edited);
+        const correct = chars.filter((char) => char.correct).length === chars.length
+        if (edited) calcWord.edited.push(word);
+        if (!correct) {
+            calcWord.incorrect.push(word);
+            continue;
+        }
+        calcWord.correct.push(word);
     }
-    const checkChars = characters.filter((e) => e.correct).length;
-    if (check === 'correct') return checkChars === characters.length;
-    if (check === 'incorrect') return checkChars !== characters.length;
-    return false;
+    return calcWord
 }
 
 // Thunk
-// Follow each time scroll to view the word index
-export const calcStatsTypedWord = createAsyncThunk(
-    'stats/calcStatsTypedWord', (_, { getState }): boolean | TypedWord => {
-        const { typing: { typed, scrollToViewWordIndex } } = getState() as RootState;
-        if (scrollToViewWordIndex < 0) return false;
-        const currentWord = typed[scrollToViewWordIndex - 1];
-        console.log(currentWord, scrollToViewWordIndex)
-        if (!currentWord) return false;
-        return currentWord
-    })
+export const finish = createAsyncThunk('finish/stats', (_) => {
+})
+
+// Finish and statistics results
+export const calcStats = createAsyncThunk('calcStats/stats', (_, { getState }): { typed: TypedWord[] } => {
+    const { typing: { typed } } = getState() as RootState;
+    return { typed };
+})
 
 // Follow each time presskey
 export const calcWpm = createAsyncThunk(
@@ -70,7 +71,6 @@ export const checkFinished = createAsyncThunk(
         if (lastTypedWordIndex !== typed.length - 1) return false;
 
         const theLastChars = typed[lastTypedWordIndex].character
-        console.log(theLastChars, lastTypedWordIndex);
         const checkLastWordIsCorrect = theLastChars.filter((char) => char.correct).length === theLastChars.length;
         if (checkLastWordIsCorrect) return true;
 
@@ -83,19 +83,17 @@ export const checkFinished = createAsyncThunk(
 const stats = createSlice({
     initialState: initialStatsState,
     name: 'stats',
-    reducers: {
-        ended: (state) => {
-            state.ended = Date.now();
-        }
-    },
+    reducers: {},
     extraReducers: (builder) => {
-        builder.addCase(calcStatsTypedWord.fulfilled, (state, action) => {
-            if (!action.payload) return;
-            const typedWord = action.payload as TypedWord
-            if (checkTypedWord('correct', typedWord)) state.correct++;
-            if (checkTypedWord('edited', typedWord)) state.edited++;
-            if (checkTypedWord('incorrect', typedWord)) state.incorrect++;
-            console.log(state.correct, state.edited, state.incorrect)
+        builder.addCase(finish.fulfilled, (state) => {
+            state.ended = Date.now()
+        })
+        builder.addCase(calcStats.fulfilled, (state, action) => {
+            if (state.started == 0 || state.ended == 0) return;
+            const stats = statsTypedWord(action.payload.typed);
+            state.correct = stats.correct;
+            state.incorrect = stats.incorrect;
+            state.edited = stats.edited;
         })
         builder.addCase(calcWpm.fulfilled, (state, action) => {
             state.wpm = action.payload
@@ -114,8 +112,9 @@ const stats = createSlice({
         builder.addCase(backspaceAction.fulfilled, (state, action) => {
             if (action.payload) state.backspace++;
         })
+
     }
 })
 
-export const { ended } = stats.actions
+export const { } = stats.actions
 export default stats.reducer

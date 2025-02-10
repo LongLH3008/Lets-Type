@@ -1,12 +1,9 @@
-"use client";
-
 import { ICON_SIZE, TimerConstant } from "@/common/constants/control";
 import { changeMode, setTime } from "@/common/redux/slices/control";
 import { generateDataTyping } from "@/common/redux/slices/typing";
 import { AppDispatch, RootState } from "@/common/redux/store";
 import { TypingMode } from "@/common/types/control__enums";
 import { AlarmClock, Check } from "lucide-react";
-import { motion } from "motion/react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "../ui/dropdown-menu";
@@ -58,12 +55,7 @@ const TimerMode = () => {
 			</HoverLabel>
 			{mode === "timer" && (
 				<div className="h-full">
-					<motion.div
-						initial={{ opacity: 0, scale: 0.7 }}
-						animate={{ opacity: 1, scale: 1 }}
-						transition={{ duration: 0.35 }}
-						className="h-full flex items-center gap-1"
-					>
+					<div className="h-full flex items-center gap-1">
 						<span className="h-3/4 w-[1px] bg-orange-200 mr-1"></span>
 						<HoverLabel label="Time (second)" className="h-full w-8">
 							<DropdownMenu>
@@ -109,7 +101,7 @@ const TimerMode = () => {
 								</DropdownMenuContent>
 							</DropdownMenu>
 						</HoverLabel>
-					</motion.div>
+					</div>
 				</div>
 			)}
 		</section>

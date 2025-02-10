@@ -6,7 +6,6 @@ import { generateDataTyping } from "@/common/redux/slices/typing";
 import { AppDispatch, RootState } from "@/common/redux/store";
 import { Difficult, TypingMode } from "@/common/types/control__enums";
 import { Text } from "lucide-react";
-import { motion } from "motion/react";
 import { useDispatch, useSelector } from "react-redux";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "../ui/dropdown-menu";
 import HoverLabel from "./HoverLabel";
@@ -49,12 +48,7 @@ const QuotesMode = () => {
 			</HoverLabel>
 			{mode === "quote" && (
 				<div className="h-full w-[90px]">
-					<motion.div
-						initial={{ opacity: 0, scale: 0.7 }}
-						animate={{ opacity: 1, scale: 1 }}
-						transition={{ duration: 0.35 }}
-						className="h-full flex justify-end items-center gap-1"
-					>
+					<div className="h-full flex justify-end items-center gap-1">
 						<span className="h-3/4 w-[1px] bg-orange-200 mr-1"></span>
 						<HoverLabel label="Difficult" className="h-full w-[80px]">
 							<DropdownMenu>
@@ -84,7 +78,7 @@ const QuotesMode = () => {
 								</DropdownMenuContent>
 							</DropdownMenu>
 						</HoverLabel>
-					</motion.div>
+					</div>
 				</div>
 			)}
 		</section>

@@ -3,3 +3,4 @@ export const formatTimer = (seconds: number) => {
     const remainingSeconds = seconds % 60;
     return `${minutes.toString().padStart(2, "0")}:${remainingSeconds.toString().padStart(2, "0")}`;
 };
+

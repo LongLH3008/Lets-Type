@@ -1,5 +1,5 @@
 import { formatTimer } from "@/common/functions/control";
-import { ended } from "@/common/redux/slices/stats";
+import { calcStats, finish } from "@/common/redux/slices/stats";
 import { AppDispatch, RootState } from "@/common/redux/store";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -20,7 +20,7 @@ const Timer = () => {
 		const intervalTime = setInterval(() => {
 			setTime((prevTime) => {
 				if (prevTime <= 1) {
-					dispatch(ended());
+					dispatch(finish()).then(() => dispatch(calcStats()));
 					clearInterval(intervalTime);
 					return 0;
 				}

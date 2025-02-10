@@ -1,3 +1,5 @@
+"use client";
+
 import BackspaceSwitch from "./BackspaceSwitch";
 import KeyboardSwitch from "./KeyboardSwitch";
 import QuotesMode from "./QuotesMode";

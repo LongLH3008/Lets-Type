@@ -16,7 +16,6 @@ const Keyboard = () => {
 			0
 		);
 		const index = keyIndex + totalPreviousKeys;
-		console.log(index);
 		refsKey.current[index] = el;
 	};
 
