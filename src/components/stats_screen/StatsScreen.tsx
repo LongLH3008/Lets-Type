@@ -11,7 +11,7 @@ const StatsScreen = () => {
 			initial={{ opacity: 0, translateZ: 200 }}
 			animate={{ opacity: 1, translateZ: 0 }}
 			transition={{ duration: 0.6, ease: "easeIn" }}
-			className="w-[1024px] h-screen flex gap-20 items-start justify-between rounded-md text-foreground/50"
+			className="w-[1024px] h-screen grid grid-cols-5 items-start justify-between rounded-md text-foreground/50"
 		>
 			<StatsWpm />
 			<StatsAccuracy />

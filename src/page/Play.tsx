@@ -9,7 +9,6 @@ const Play = () => {
 	const ended = useSelector((state: RootState) => state.stats.ended);
 
 	return <>{ended > 0 ? <StatsScreen /> : <TypingScreen />}</>;
-	// return <>{<StatsScreen />}</>;
 };
 
 export default Play;

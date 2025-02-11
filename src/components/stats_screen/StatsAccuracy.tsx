@@ -1,11 +1,20 @@
 import { ICON_SIZE } from "@/common/constants/control";
+import { animationFrame } from "@/common/functions/animationFrame";
 import { RootState } from "@/common/redux/store";
 import { Check, X } from "lucide-react";
+import { useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
 import HoverLabel from "../controls/HoverLabel";
 
+type countRef = {
+	acc: HTMLSpanElement | null;
+	correct: HTMLSpanElement | null;
+	incorrect: HTMLSpanElement | null;
+};
+
 const StatsAccuracy = () => {
 	const { correct, incorrect } = useSelector((state: RootState) => state.stats);
+	const countRef = useRef<countRef>({ acc: null, correct: null, incorrect: null });
 
 	const correct_chars = [...correct, ...incorrect].reduce((init: number, word) => {
 		const corrects = word.character.filter((char) => char.correct).length;
@@ -22,22 +31,49 @@ const StatsAccuracy = () => {
 		return Math.floor((correct_chars / total_chars) * 100);
 	};
 
+	const setRef = (key: keyof countRef) => (el: HTMLSpanElement | null) => {
+		countRef.current[key] = el;
+	};
+
+	useEffect(() => {
+		animationFrame({
+			duration: 1000,
+			cleanupAnimationFrame: true,
+			animationFrameAction: (progress) => {
+				if (countRef.current.acc !== null) {
+					const number = Math.floor(calcAcc() * progress);
+					countRef.current.acc.innerText = number.toString() + "%";
+				}
+				if (countRef.current.correct !== null) {
+					countRef.current.correct.innerText = Math.floor(correct_chars * progress).toString();
+				}
+				if (countRef.current.incorrect !== null) {
+					countRef.current.incorrect.innerText = Math.floor(
+						(total_chars - correct_chars) * progress
+					).toString();
+				}
+			},
+		});
+	}, [incorrect]);
+
 	return (
 		<div className="relative font-[700] text-5xl flex flex-col items-start gap-0">
 			<span className="text-base font-bold uppercase">acc</span>
 			<HoverLabel label="Accuracy">
-				<span className="">{calcAcc()}%</span>
+				<span ref={setRef("acc")}>0%</span>
 			</HoverLabel>
 			<span className="text-base font-bold tracking-tight flex items-center gap-2">
 				<HoverLabel label="Correct chars">
-					<span className="flex items-center gap-1">
-						{correct_chars} <Check size={ICON_SIZE} />
-					</span>
+					<div className="flex items-center gap-1">
+						<span ref={setRef("correct")}>0</span>
+						<Check size={ICON_SIZE} />
+					</div>
 				</HoverLabel>
 				<HoverLabel label="Incorrect chars">
-					<span className="flex items-center gap-1">
-						{total_chars - correct_chars} <X size={ICON_SIZE} />
-					</span>
+					<div className="flex items-center gap-1">
+						<span ref={setRef("incorrect")}>0</span>
+						<X size={ICON_SIZE} />
+					</div>
 				</HoverLabel>
 			</span>
 		</div>
