@@ -10,12 +10,12 @@ const Letter = (props: TypedCharacter) => {
 	const letterCursor = props.cursor ? "cursor_active" : "";
 	const isSpace = props.content == " " ? "text-transparent" : "";
 	const letterContent = props.content == " " ? "_" : props.content;
-	const isEdited = props.edited ? "border-t-foreground/50" : "";
+	const isEdited = props.edited && props.typed !== "" ? "border-t-foreground/50" : "";
 
 	return (
 		<span
 			className={cn(
-				`text-foreground/20 border-y border-r-[0.5px] border-l-2 border-transparent font-[500] duration-200 ${isCorrect()} ${letterCursor} ${isSpace} ${isEdited}`
+				`text-foreground/20 border-y mx-[1px] border-r-[0.5px] border-l-2 border-transparent font-[500] duration-200 ${isCorrect()} ${letterCursor} ${isSpace} ${isEdited}`
 			)}
 		>
 			{letterContent}

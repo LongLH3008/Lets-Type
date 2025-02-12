@@ -92,7 +92,7 @@ const WordsMode = () => {
 											type="number"
 											onClick={(e) => e.stopPropagation()}
 											onChange={(e) => changeValueTotalCustom(e)}
-											className={`w-12 h-fit text-[10px] p-1 duration-300 ${totalCustom == 200 && "text-orange-400 text-[12px]"}`}
+											className={`w-12 h-fit p-1 duration-300 ${totalCustom == 200 && "text-orange-400 text-[14px]"}`}
 											min={15}
 											max={200}
 											value={totalCustom}
@@ -109,7 +109,7 @@ const WordsMode = () => {
 									{TotalWordsMode.map((item, index: number) => (
 										<DropdownMenuItem
 											onClick={() => setTotal(item.value)}
-											className="text-[10px] cursor-pointer"
+											className="text-[12px] cursor-pointer"
 											key={index}
 										>
 											{item.label}

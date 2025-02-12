@@ -53,6 +53,7 @@ const handleBackspace = (words: TypedWord[], indexCurrentWord: number): TypedWor
     if (typedCharacter == -1) {
         indWord = indexCurrentWord - 1
         currentWord = words[indWord];
+        if (!currentWord) return words
         typedCharacter = currentWord.character.findLastIndex((e) => e.active);
     }
 
@@ -66,7 +67,6 @@ const handleBackspace = (words: TypedWord[], indexCurrentWord: number): TypedWor
     })
 
     let res = words.map((e, index: number) => {
-        // index == indWord ? { ...e, character, active: false } : e
         if (index == indWord) return { ...e, character, active: false }
         if (index == indWord + 1) {
             return {
@@ -157,7 +157,7 @@ const typing = createSlice({
                     character
                 }
             })
-
+            state.scrollToViewWordIndex = 0;
             state.typed = words
         })
         builder.addCase(generateDataTyping.rejected, (state, action) => {
@@ -166,11 +166,11 @@ const typing = createSlice({
         builder.addCase(backspaceAction.fulfilled, (state, action) => {
             if (!action.payload) return
             const currentWordIndex = state.scrollToViewWordIndex
-            state.typed = handleBackspace(state.typed, currentWordIndex);
             const currentWord = state.typed[currentWordIndex];
-            if (currentWordIndex > 0 && currentWord.character.filter((char) => !char.active).length == currentWord.content.length) {
+            if (currentWordIndex > 0 && currentWord.character.every((char) => !char.active)) {
                 state.scrollToViewWordIndex = currentWordIndex - 1;
             }
+            state.typed = handleBackspace(state.typed, currentWordIndex);
         })
         builder.addCase(presskeyAction.fulfilled, (state, action) => {
             const currentWordIndex = checkCurrentWord(state.typed);

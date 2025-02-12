@@ -42,7 +42,7 @@ const StatsTyped = () => {
 				<HoverLabel label="Incorrect">
 					<span ref={setCountRef(2)}>0</span>
 				</HoverLabel>
-				<HoverLabel label="Edited">
+				<HoverLabel label="Retyped">
 					<span ref={setCountRef(3)}>0</span>
 				</HoverLabel>
 			</div>

@@ -80,7 +80,7 @@ const TimerMode = () => {
 											onClick={(e) => e.stopPropagation()}
 											onChange={(e) => changeValueSecondTimer(e)}
 											type="number"
-											className={`w-12 h-fit text-[10px] px-1 duration-300 ${second == 300 && "text-orange-400 text-[12px]"}`}
+											className={`w-12 h-fit px-1 duration-300 ${second == 300 && "text-orange-400 text-[14px]"}`}
 											min={15}
 											max={300}
 											value={second}
@@ -97,7 +97,7 @@ const TimerMode = () => {
 									{TimerConstant.map((item, index: number) => (
 										<DropdownMenuItem
 											onClick={() => setTimer(item.value)}
-											className="text-[10px] cursor-pointer flex items-center gap-2"
+											className="text-[12px] cursor-pointer flex items-center gap-2"
 											key={index}
 										>
 											{item.label}

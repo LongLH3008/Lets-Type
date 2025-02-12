@@ -21,7 +21,7 @@ const Counter = () => {
 					<span className="text-foreground/70 border-foreground/70 font-[500] text-base border-t">
 						a
 					</span>
-					<span>Edited</span>
+					<span>Retyped</span>
 				</div>
 				<div className="flex items-center gap-2">
 					<span className="text-foreground/70 border-foreground/70 font-[500] text-base border-b">

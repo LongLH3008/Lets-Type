@@ -8,7 +8,7 @@ const initialStateControl: ControlState = {
     timer: 30,
     totalWords: 30,
     difficult: Difficult.Easy,
-    backspace: false,
+    backspace: true,
     typing: false,
 };
 
