@@ -65,9 +65,10 @@ const StatsDuration = () => {
 					{calc > 0 ? "s" : ""}
 				</span>
 			) : (
-				<div className="flex w-full justify-between items-end text-sm">
-					<span>min{calc > 0 ? "s" : ""}</span>
-					<span>sec{calc > 0 ? "s" : ""}</span>
+				<div className="flex w-fit justify-between items-end text-sm">
+					<span>
+						min{calc > 0 ? "s" : ""} | sec{calc > 0 ? "s" : ""}
+					</span>
 				</div>
 			)}
 		</div>

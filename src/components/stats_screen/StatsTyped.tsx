@@ -31,7 +31,7 @@ const StatsTyped = () => {
 
 	return (
 		<div className="col-span-2 relative font-[700] text-5xl flex flex-col items-start">
-			<span className="text-base font-bold uppercase">typed</span>
+			<span className="text-base font-bold uppercase">typed words</span>
 			<div className="grid grid-cols-4 w-full gap-8 items-center *:flex *:justify-center *:w-full *:text-center">
 				<HoverLabel label="Total typed">
 					<span ref={setCountRef(0)}>0</span>

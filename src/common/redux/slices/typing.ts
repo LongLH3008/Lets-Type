@@ -47,18 +47,35 @@ const handleTypedCharacter = (characters: TypedCharacter[], typed: string): Type
 
 // Handle backspace
 const handleBackspace = (words: TypedWord[], indexCurrentWord: number): TypedWord[] => {
-    const currentWord = words[indexCurrentWord];
-    const typedCharacter = currentWord.character.filter((e) => e.active);
-    if (typedCharacter.length == 0) return words
+    let indWord = indexCurrentWord
+    let currentWord = words[indWord];
+    let typedCharacter = currentWord.character.findLastIndex((e) => e.active);
+    if (typedCharacter == -1) {
+        indWord = indexCurrentWord - 1
+        currentWord = words[indWord];
+        typedCharacter = currentWord.character.findLastIndex((e) => e.active);
+    }
 
-    const indexDeleteChar = typedCharacter.length - 1;
+    if (typedCharacter == -1) return words;
+
+    const indexDeleteChar = typedCharacter;
     const character = currentWord.character.map((char, index: number) => {
         if (index == indexDeleteChar) return { ...char, edited: true, cursor: true, active: false, typed: '', correct: false };
-        if (index == indexDeleteChar + 1) return { ...char, cursor: false };
-        return char
+
+        return { ...char, cursor: false }
     })
 
-    let res = words.map((e, index: number) => index == indexCurrentWord ? { ...e, character, active: false } : e);
+    let res = words.map((e, index: number) => {
+        // index == indWord ? { ...e, character, active: false } : e
+        if (index == indWord) return { ...e, character, active: false }
+        if (index == indWord + 1) {
+            return {
+                ...e, character: e.character.map((char) => ({ ...char, cursor: false }))
+            }
+        }
+        return e;
+    });
+
     return res;
 }
 
@@ -147,13 +164,12 @@ const typing = createSlice({
             console.log(action.payload)
         })
         builder.addCase(backspaceAction.fulfilled, (state, action) => {
-            if (action.payload) {
-                const currentWord = checkCurrentWord(state.typed);
-                if (currentWord == -1) {
-                    state.typed = handleBackspace(state.typed, state.typed.length - 1);
-                } else {
-                    state.typed = handleBackspace(state.typed, currentWord);
-                }
+            if (!action.payload) return
+            const currentWordIndex = state.scrollToViewWordIndex
+            state.typed = handleBackspace(state.typed, currentWordIndex);
+            const currentWord = state.typed[currentWordIndex];
+            if (currentWordIndex > 0 && currentWord.character.filter((char) => !char.active).length == currentWord.content.length) {
+                state.scrollToViewWordIndex = currentWordIndex - 1;
             }
         })
         builder.addCase(presskeyAction.fulfilled, (state, action) => {
@@ -162,14 +178,12 @@ const typing = createSlice({
             if (!currentWord) return;
             state.typed[currentWordIndex].character = handleTypedCharacter(state.typed[currentWordIndex].character, action.payload.typed);
 
-            if (currentWord.character.filter((char) => char.active).length == currentWord.content.length) {
+            if (currentWordIndex < state.typed.length - 1 && currentWord.character.filter((char) => char.active).length == currentWord.content.length) {
                 state.scrollToViewWordIndex = currentWordIndex + 1;
             }
 
             state.typed = handleTypedWord(state.typed, currentWordIndex);
             state.pressedKey = action.payload.keycode;
-
-            // console.log(state.typed[currentWordIndex].character, action.payload);
         })
     }
 })

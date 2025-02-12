@@ -21,8 +21,8 @@ export interface TypingState {
 
 export interface StatsState extends StatsTypedWord {
     wpm: string;
+    rawWpm: string;
     started: number;
     ended: number;
-    accuracy: number;
     backspace: number
 }

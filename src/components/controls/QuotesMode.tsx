@@ -12,9 +12,12 @@ import HoverLabel from "./HoverLabel";
 
 const QuotesMode = () => {
 	const dispatch = useDispatch<AppDispatch>();
-	const { mode, difficult } = useSelector((state: RootState) => state.control);
+	const mode = useSelector((state: RootState) => state.control.mode);
+	const difficult = useSelector((state: RootState) => state.control.difficult);
+	const ended = useSelector((state: RootState) => state.stats.ended);
 
 	const changeDifficultQuote = (diff: Difficult) => {
+		if (ended > 0) return;
 		dispatch(changeDifficult(diff));
 		dispatch(generateDataTyping());
 	};
@@ -24,6 +27,7 @@ const QuotesMode = () => {
 	};
 
 	const changeModeQuote = () => {
+		if (ended > 0) return;
 		dispatch(changeMode(TypingMode.quote));
 		dispatch(generateDataTyping());
 	};
@@ -31,7 +35,8 @@ const QuotesMode = () => {
 	return (
 		<section
 			className={`p-[3.5px] rounded-[9px] h-[40px] translate-y-[1px] border duration-200 ease flex gap-2 items-center justify-between
-			${mode === "quote" ? "border-orange-300 w-[140px]" : "w-[41px]"}`}
+			${mode === "quote" ? "border-orange-300 w-[140px]" : "w-[41px]"}
+			${ended > 0 ? "opacity-0" : ""}`}
 		>
 			<HoverLabel label="Quote mode" className="h-full w-8">
 				<div
@@ -60,17 +65,17 @@ const QuotesMode = () => {
 									</div>
 								</DropdownMenuTrigger>
 								<DropdownMenuContent
-									className="-translate-y-2 w-48 -translate-x-1"
+									className="-translate-y-2 w-44 -translate-x-1"
 									align="start"
 								>
 									{QuotesDifficultConstant.map((item, index: number) => (
 										<DropdownMenuItem
 											onClick={() => changeDifficultQuote(item.value)}
-											className="text-[10px] cursor-pointer flex-col font-[600] items-start"
+											className="text-[12px] cursor-pointer flex-col font-[700] items-start"
 											key={index}
 										>
 											{item.label}
-											<span className="text-wrap font-normal">
+											<span className="text-wrap mt-[0.5px] leading-3 font-normal">
 												{item.desc}
 											</span>
 										</DropdownMenuItem>

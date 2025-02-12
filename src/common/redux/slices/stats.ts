@@ -8,12 +8,12 @@ import { backspaceAction, generateDataTyping, presskeyAction } from "./typing";
 
 const initialStatsState: StatsState = {
     wpm: '0.00',
+    rawWpm: '0.00',
     correct: [],
     incorrect: [],
     edited: [],
     started: 0,
     ended: 0,
-    accuracy: 0,
     backspace: 0,
 }
 
@@ -94,6 +94,15 @@ const stats = createSlice({
             state.correct = stats.correct;
             state.incorrect = stats.incorrect;
             state.edited = stats.edited;
+
+            const chars = action.payload.typed.reduce((init: number, word) => {
+                const chars = word.character.filter((char) => char.active).length;
+                return chars + init;
+            }, 0)
+            const second = Math.floor((state.ended - state.started) / 1000)
+            const raw = (chars / STANDARD_CHARACTER_LENGTH) * (SECOND_PER_MIN / second);
+            console.log(chars, second, raw);
+            state.rawWpm = Math.floor(raw).toString();
         })
         builder.addCase(calcWpm.fulfilled, (state, action) => {
             state.wpm = action.payload

@@ -13,9 +13,12 @@ import HoverLabel from "./HoverLabel";
 const TimerMode = () => {
 	const [second, setSecond] = useState<number>(0);
 	const dispatch = useDispatch<AppDispatch>();
-	const { mode, timer } = useSelector((state: RootState) => state.control);
+	const timer = useSelector((state: RootState) => state.control.timer);
+	const mode = useSelector((state: RootState) => state.control.mode);
+	const ended = useSelector((state: RootState) => state.stats.ended);
 
 	const setTimer = (time: number) => {
+		if (ended > 0) return;
 		dispatch(setTime(time));
 		if (second !== 0) setSecond(0);
 	};
@@ -31,6 +34,7 @@ const TimerMode = () => {
 	};
 
 	const changeModeTimer = () => {
+		if (ended > 0) return;
 		dispatch(changeMode(TypingMode.timer));
 		dispatch(generateDataTyping());
 	};
@@ -38,7 +42,8 @@ const TimerMode = () => {
 	return (
 		<section
 			className={`p-[3.5px] rounded-[9px] h-[40px] translate-y-[1px] border duration-200 ease flex gap-2 items-center
-		${mode === "timer" ? "border-orange-300 w-[90px]" : "w-[41px]"}`}
+		${mode === "timer" ? "border-orange-300 w-[90px]" : "w-[41px]"}
+		${ended > 0 ? "opacity-0" : ""}`}
 		>
 			<HoverLabel label="Timer mode" className="h-full w-8">
 				<div

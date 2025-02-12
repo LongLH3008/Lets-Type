@@ -16,8 +16,10 @@ const WordsMode = () => {
 	const [totalCustom, setTotalCustom] = useState<number>(0);
 	const dispatch = useDispatch<AppDispatch>();
 	const { totalWords, difficult, mode } = useSelector((state: RootState) => state.control);
+	const ended = useSelector((state: RootState) => state.stats.ended);
 
 	const changeDifficultWord = (diff: Difficult) => {
+		if (ended > 0) return;
 		dispatch(changeDifficult(diff));
 		dispatch(generateDataTyping());
 	};
@@ -27,6 +29,7 @@ const WordsMode = () => {
 	};
 
 	const setTotal = (totalWord: number) => {
+		if (ended > 0) return;
 		dispatch(setTotalWord(totalWord));
 		if (totalCustom !== 0) setTotalCustom(0);
 		dispatch(generateDataTyping());
@@ -43,6 +46,7 @@ const WordsMode = () => {
 	};
 
 	const changeModeWord = () => {
+		if (ended > 0) return;
 		dispatch(changeMode(TypingMode.word));
 		dispatch(generateDataTyping());
 	};
@@ -50,7 +54,8 @@ const WordsMode = () => {
 	return (
 		<section
 			className={`p-[3.5px] rounded-[9px] h-[40px] translate-y-[1px] border duration-200 ease flex gap-2 items-center
-			${mode === "word" ? "border-orange-300 w-[177px]" : "w-[41px]"}`}
+			${mode === "word" ? "border-orange-300 w-[177px]" : "w-[41px]"}
+			${ended > 0 ? "opacity-0" : ""}`}
 		>
 			<HoverLabel label="Word mode" className="h-full w-8">
 				<div
@@ -123,17 +128,17 @@ const WordsMode = () => {
 									</div>
 								</DropdownMenuTrigger>
 								<DropdownMenuContent
-									className="-translate-y-2 w-48 -translate-x-1"
+									className="-translate-y-2 w-44 -translate-x-1"
 									align="start"
 								>
 									{WordsDifficultConstant.map((item, index: number) => (
 										<DropdownMenuItem
 											onClick={() => changeDifficultWord(item.value)}
-											className="text-[10px] cursor-pointer flex-col font-[600] items-start"
+											className="text-[12px] cursor-pointer flex-col font-[700] items-start"
 											key={index}
 										>
 											{item.label}
-											<span className="text-wrap font-normal">
+											<span className="text-wrap mt-[0.5px] leading-3 font-normal">
 												{item.desc}
 											</span>
 										</DropdownMenuItem>
