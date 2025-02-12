@@ -37,7 +37,7 @@ const StatsWpm = () => {
 	console.log(rawWpm);
 
 	return (
-		<div className="relative font-[700] text-5xl text-orange-400 flex flex-col items-start gap-0">
+		<div className="col-span-4 relative font-[700] text-5xl text-orange-400 flex flex-col items-start gap-0">
 			<span className="text-base font-bold uppercase">wpm</span>
 			<HoverLabel label="Words per min" classNameLabel="left-0 translate-x-0">
 				<span ref={setRef("wpm")}>0.0</span>

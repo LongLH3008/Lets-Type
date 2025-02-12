@@ -93,3 +93,32 @@
 		scale: 1.15;
 	}
 }
+
+.history_scroll::-webkit-scrollbar-track {
+	/* Màu nền của thanh cuộn */
+	background-color: transparent;
+}
+
+.history_scroll::-webkit-scrollbar {
+	/* Độ rộng của thanh cuộn dọc  */
+	width: 6px;
+	/* Độ rộng của thanh cuộn ngang */
+	height: 6px;
+}
+
+.history_scroll::-webkit-scrollbar-track {
+	/* Màu nền của thanh cuộn */
+	background-color: transparent;
+}
+
+.history_scroll::-webkit-scrollbar-thumb {
+	/* Màu của tay cầm thanh cuộn */
+	background-color: #5063bf;
+	/* Độ bo tròn góc của tay cầm */
+	border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+	/* Màu của tay cầm khi hover */
+	background-color: #555;
+}

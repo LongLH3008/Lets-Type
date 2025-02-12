@@ -19,7 +19,7 @@ const StatsAccuracy = () => {
 	const correct_chars = [...correct, ...incorrect].reduce((init: number, word) => {
 		const corrects = word.character.filter((char) => char.correct).length;
 		return corrects + init;
-	}, 0);
+	}, 0)
 
 	const total_chars = [...correct, ...incorrect].reduce((init: number, word) => {
 		const chars = word.character.length;
@@ -57,7 +57,7 @@ const StatsAccuracy = () => {
 	}, [incorrect]);
 
 	return (
-		<div className="relative font-[700] text-5xl flex flex-col items-start gap-0">
+		<div className="col-span-3 relative font-[700] text-5xl flex flex-col items-start gap-0">
 			<span className="text-base font-bold uppercase">acc</span>
 			<HoverLabel label="Accuracy">
 				<span ref={setRef("acc")}>0%</span>
