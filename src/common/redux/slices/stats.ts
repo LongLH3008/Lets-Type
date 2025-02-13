@@ -17,11 +17,6 @@ const initialStatsState: StatsState = {
 }
 
 // Calculation
-const handleCalcWpm = (correct_characters: number, duration: number): number => {
-    const netWpm = (correct_characters / STANDARD_CHARACTER_LENGTH)
-        * (SECOND_PER_MIN / duration);
-    return netWpm;
-}
 
 const statsTypedWord = (typedWord: TypedWord[]): StatsTypedWord => {
     const words = typedWord.filter((word) => word.active);
@@ -52,19 +47,20 @@ export const calcStats = createAsyncThunk('calcStats/stats', (_, { getState }): 
 
 // Follow each time presskey
 export const calcWpm = createAsyncThunk(
-    'stats/calcWpm', (_, { getState }) => {
+    'stats/calcWpm', (_, { getState }): { rawWpm: string, wpm: string } => {
         const { typing: { typed }, stats: { started } } = getState() as RootState;
         const correct_characters = typed.reduce((init: number, word) =>
             init + word.character.filter((char) => char.correct).length, 0)
         const duration = (Date.now() - started) / 1000
-        const wpm = handleCalcWpm(correct_characters, duration);
+        const wpm = (correct_characters / STANDARD_CHARACTER_LENGTH)
+            * (SECOND_PER_MIN / duration);
 
         const chars = typed.reduce((init: number, word) => {
             const chars = word.character.filter((char) => char.active).length;
             return chars + init;
         }, 0)
         const raw = (chars / STANDARD_CHARACTER_LENGTH) * (SECOND_PER_MIN / duration);
-        return { rawWpm: raw.toFixed(2), wpm: wpm.toFixed(2) }
+        return { rawWpm: raw.toFixed(2).toString(), wpm: wpm.toFixed(2).toString() }
     })
 
 // Check finished
@@ -102,8 +98,7 @@ const stats = createSlice({
             console.log(JSON.parse(JSON.stringify(state.wpmRecords)))
         })
         builder.addCase(calcWpm.fulfilled, (state, action) => {
-            const wpmRecords = [...state.wpmRecords, { wpm: action.payload.wpm, rawWpm: action.payload.rawWpm }]
-            state.wpmRecords = wpmRecords
+            state.wpmRecords.push({ wpm: (action.payload.wpm), rawWpm: (action.payload.rawWpm) })
         })
         builder.addCase(presskeyAction.fulfilled, (state) => {
             if (state.started == 0 && state.ended == 0) state.started = Date.now();

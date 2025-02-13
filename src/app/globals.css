@@ -114,9 +114,10 @@
 
 .history_scroll::-webkit-scrollbar-thumb {
 	/* Màu của tay cầm thanh cuộn */
-	background-color: rgba(0, 0, 0, 0.3);
+	background-color: #d5d5d5;
 	/* Độ bo tròn góc của tay cầm */
 	border-radius: 4px;
+	opacity: 0.3;
 }
 
 ::-webkit-scrollbar-thumb:hover {
