@@ -9,7 +9,7 @@ const Word = () => {
 	return (
 		<>
 			{words?.map((item: TypedWord, index: number) => (
-				<div id={`word_${index}`} className={`word py-3`} key={index}>
+				<div id={`word_${index}`} className={`word pb-2`} key={index}>
 					{item.character.map((char, ind: number) => (
 						<Letter {...char} key={ind} />
 					))}

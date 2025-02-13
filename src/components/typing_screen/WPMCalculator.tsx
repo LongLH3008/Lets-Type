@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 const WPMCalculator = () => {
 	const dispatch = useDispatch<AppDispatch>();
-	const wpm = useSelector((state: RootState) => state.stats.wpm);
+	const wpmRecords = useSelector((state: RootState) => state.stats.wpmRecords);
 
 	useEffect(() => {
 		const intervalWPM = setInterval(() => {
@@ -20,7 +20,7 @@ const WPMCalculator = () => {
 	return (
 		<div className="relative text-orange-400 flex items-center">
 			<span className="-top-2 absolute left-0 text-sm font-bold">WPM</span>
-			{wpm}
+			{wpmRecords[wpmRecords.length - 1]?.wpm ?? "0.00"}
 		</div>
 	);
 };

@@ -7,8 +7,7 @@ import { RootState } from "../store";
 import { backspaceAction, generateDataTyping, presskeyAction } from "./typing";
 
 const initialStatsState: StatsState = {
-    wpm: '0.00',
-    rawWpm: '0.00',
+    wpmRecords: [],
     correct: [],
     incorrect: [],
     edited: [],
@@ -19,9 +18,9 @@ const initialStatsState: StatsState = {
 
 // Calculation
 const handleCalcWpm = (correct_characters: number, duration: number): number => {
-    const wpm = (correct_characters / STANDARD_CHARACTER_LENGTH)
+    const netWpm = (correct_characters / STANDARD_CHARACTER_LENGTH)
         * (SECOND_PER_MIN / duration);
-    return wpm;
+    return netWpm;
 }
 
 const statsTypedWord = (typedWord: TypedWord[]): StatsTypedWord => {
@@ -59,7 +58,13 @@ export const calcWpm = createAsyncThunk(
             init + word.character.filter((char) => char.correct).length, 0)
         const duration = (Date.now() - started) / 1000
         const wpm = handleCalcWpm(correct_characters, duration);
-        return wpm.toFixed(2)
+
+        const chars = typed.reduce((init: number, word) => {
+            const chars = word.character.filter((char) => char.active).length;
+            return chars + init;
+        }, 0)
+        const raw = (chars / STANDARD_CHARACTER_LENGTH) * (SECOND_PER_MIN / duration);
+        return { rawWpm: raw.toFixed(2), wpm: wpm.toFixed(2) }
     })
 
 // Check finished
@@ -94,18 +99,11 @@ const stats = createSlice({
             state.correct = stats.correct;
             state.incorrect = stats.incorrect;
             state.edited = stats.edited;
-
-            const chars = action.payload.typed.reduce((init: number, word) => {
-                const chars = word.character.filter((char) => char.active).length;
-                return chars + init;
-            }, 0)
-            const second = Math.floor((state.ended - state.started) / 1000)
-            const raw = (chars / STANDARD_CHARACTER_LENGTH) * (SECOND_PER_MIN / second);
-            console.log(chars, second, raw);
-            state.rawWpm = Math.floor(raw).toString();
+            console.log(JSON.parse(JSON.stringify(state.wpmRecords)))
         })
         builder.addCase(calcWpm.fulfilled, (state, action) => {
-            state.wpm = action.payload
+            const wpmRecords = [...state.wpmRecords, { wpm: action.payload.wpm, rawWpm: action.payload.rawWpm }]
+            state.wpmRecords = wpmRecords
         })
         builder.addCase(presskeyAction.fulfilled, (state) => {
             if (state.started == 0 && state.ended == 0) state.started = Date.now();

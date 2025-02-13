@@ -15,7 +15,7 @@ const Letter = (props: TypedCharacter) => {
 	return (
 		<span
 			className={cn(
-				`text-foreground/20 border-y mx-[1px] border-r-[0.5px] border-l-2 border-transparent font-[500] duration-200 ${isCorrect()} ${letterCursor} ${isSpace} ${isEdited}`
+				`text-foreground/20 border-y mx-[1px] border-r-[0.5px] border-l-2 border-transparent font-[400] duration-200 ${isCorrect()} ${letterCursor} ${isSpace} ${isEdited}`
 			)}
 		>
 			{letterContent}

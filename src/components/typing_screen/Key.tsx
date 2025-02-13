@@ -22,8 +22,6 @@ const Key = forwardRef<HTMLDivElement, { keyData: IKey; keyboard: boolean; index
 			transition: { duration: 0.05 * index, ease: "linear" },
 		};
 
-		// const onPress = pressedKey == keyData.keycode ? "press_key bg-orange-400" : "bg-foreground/10";
-
 		return (
 			<motion.div
 				ref={ref} // Truyền ref vào đây
@@ -31,7 +29,7 @@ const Key = forwardRef<HTMLDivElement, { keyData: IKey; keyboard: boolean; index
 				animate={!keyboard ? initital : animate}
 				style={{ perspective: 200 }}
 				id={`keycode-${keyData.keycode}`}
-				className={`bg-foreground/10 rounded-md border-0 *:border-0 text-sm font-[500] text-foreground/50 relative flex justify-center items-center size-9
+				className={`bg-foreground/10 rounded-md border-0 *:border-0 text-sm text-foreground/50 relative flex justify-center items-center size-9
         ${checkSpaceKey(keyData) ? "w-[300px]" : "w-9"}`}
 			>
 				{!checkNormalKey(keyData) && (

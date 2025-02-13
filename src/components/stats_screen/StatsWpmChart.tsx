@@ -2,29 +2,49 @@
 
 import { CartesianGrid, Line, LineChart, XAxis, YAxis } from "recharts";
 
+import { RootState } from "@/common/redux/store";
 import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
-
-const chartData = [
-	{ month: "January", desktop: 186, mobile: 80 },
-	{ month: "February", desktop: 305, mobile: 200 },
-	{ month: "March", desktop: 237, mobile: 120 },
-	{ month: "April", desktop: 73, mobile: 190 },
-	{ month: "May", desktop: 209, mobile: 130 },
-	{ month: "June", desktop: 214, mobile: 140 },
-];
+import { useSelector } from "react-redux";
 
 const chartConfig = {
-	desktop: {
-		label: "Desktop",
+	raw: {
+		label: "",
 		color: "hsl(var(--chart-1))",
 	},
-	mobile: {
-		label: "Mobile",
+	wpm: {
+		label: "",
 		color: "hsl(var(--chart-2))",
 	},
 } satisfies ChartConfig;
 
 export function StatsWpmChart() {
+	const wpmRecords = useSelector((state: RootState) => state.stats.wpmRecords);
+	const calcHighestWpm = () => {
+		const raw = wpmRecords
+			.map((rec) => rec.rawWpm)
+			.sort((a, b) => Number(a) - Number(b))
+			.pop();
+		const wpm = wpmRecords
+			.map((rec) => rec.wpm)
+			.sort((a, b) => Number(a) - Number(b))
+			.pop();
+		console.log(wpm, raw);
+		const res = Number(wpm) > Number(raw) ? raw : wpm;
+		return Math.ceil(Number(res));
+	};
+
+	const maxY = calcHighestWpm();
+
+	const chartData = wpmRecords.map((record, index: number) => {
+		// if (index > 0) {
+		return {
+			second: index,
+			wpm: Math.ceil(Number(record.wpm)),
+			raw: Math.ceil(Number(record.rawWpm)),
+		};
+		// }
+	});
+
 	return (
 		<ChartContainer config={chartConfig} className="h-fit max-h-[25dvh] w-full">
 			<LineChart
@@ -41,23 +61,23 @@ export function StatsWpmChart() {
 			>
 				<CartesianGrid vertical={false} />
 				<XAxis
-					dataKey="month"
+					dataKey="second"
 					tickLine={false}
 					axisLine={false}
 					tickMargin={8}
-					tickFormatter={(value) => value.slice(0, 3)}
+					tickFormatter={(value) => String(value).slice(0, 3)}
 				/>
-				<YAxis tickLine={false} axisLine={false} tickMargin={8} tickCount={3} />
+				<YAxis tickLine={false} axisLine={false} tickMargin={8} tickCount={5} domain={[0, maxY]} />
 				<ChartTooltip cursor={false} content={<ChartTooltipContent />} />
 				<Line
-					dataKey="mobile"
-					stroke="var(--color-mobile)"
+					dataKey="raw"
+					stroke="#5d5d5d"
 					strokeWidth={2}
 					dot={false} // Không hiển thị các chấm trên đường
 				/>
 				<Line
-					dataKey="desktop"
-					stroke="var(--color-desktop)"
+					dataKey="wpm"
+					stroke="#ff9c00"
 					strokeWidth={2}
 					dot={false} // Không hiển thị các chấm trên đường
 				/>

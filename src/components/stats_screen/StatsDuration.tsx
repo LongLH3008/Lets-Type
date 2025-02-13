@@ -45,7 +45,7 @@ const StatsDuration = () => {
 	}, [ended]);
 
 	return (
-		<div className="col-span-3 relative font-[700] text-5xl flex flex-col items-start">
+		<div className="col-span-3 relative font-[500] text-5xl flex flex-col items-start">
 			<span className="text-base font-bold uppercase">dur</span>
 			<HoverLabel label="Duration">
 				{isMinute || isSecond ? (

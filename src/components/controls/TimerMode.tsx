@@ -62,50 +62,58 @@ const TimerMode = () => {
 				<div className="h-full">
 					<div className="h-full flex items-center gap-1">
 						<span className="h-3/4 w-[1px] bg-orange-200 mr-1"></span>
-						<HoverLabel label="Time (second)" className="h-full w-8">
-							<DropdownMenu>
-								<DropdownMenuTrigger asChild className="rounded-lg border">
-									<div className="bg-accent h-full w-8 flex flex-col justify-center items-center rounded-[5px] cursor-pointer">
-										<span className="text-muted-foreground z-50 font-[700] text-[12px]">
-											{timer}
-										</span>
-									</div>
-								</DropdownMenuTrigger>
-								<DropdownMenuContent
-									className="-translate-y-2 w-fit -translate-x-1"
-									align="start"
-								>
-									<DropdownMenuItem className="px-1 flex items-center gap-2 focus:bg-transparent hover:bg-transparent">
-										<Input
-											onClick={(e) => e.stopPropagation()}
-											onChange={(e) => changeValueSecondTimer(e)}
-											type="number"
-											className={`w-12 h-fit px-1 duration-300 ${second == 300 && "text-orange-400 text-[14px]"}`}
-											min={15}
-											max={300}
-											value={second}
-										></Input>
-										<span
-											onClick={() =>
-												second !== 0 && setTimer(Number(second))
-											}
-											className="size-7 bg-transparent cursor-pointer hover:bg-accent duration-300 flex items-center justify-center rounded-sm"
-										>
-											<Check size={ICON_SIZE} />
-										</span>
-									</DropdownMenuItem>
-									{TimerConstant.map((item, index: number) => (
-										<DropdownMenuItem
-											onClick={() => setTimer(item.value)}
-											className="text-[12px] cursor-pointer flex items-center gap-2"
-											key={index}
-										>
-											{item.label}
+						{ended > 0 ? (
+							<div className="bg-accent h-full w-8 flex flex-col justify-center items-center rounded-[5px] cursor-pointer">
+								<span className="text-muted-foreground z-50 font-[700] text-[12px]">
+									{timer}
+								</span>
+							</div>
+						) : (
+							<HoverLabel label="Time (second)" className="h-full w-8">
+								<DropdownMenu>
+									<DropdownMenuTrigger asChild className="rounded-lg border">
+										<div className="bg-accent h-full w-8 flex flex-col justify-center items-center rounded-[5px] cursor-pointer">
+											<span className="text-muted-foreground z-50 font-[700] text-[12px]">
+												{timer}
+											</span>
+										</div>
+									</DropdownMenuTrigger>
+									<DropdownMenuContent
+										className="-translate-y-2 w-fit -translate-x-1"
+										align="start"
+									>
+										<DropdownMenuItem className="px-1 flex items-center gap-2 focus:bg-transparent hover:bg-transparent">
+											<Input
+												onClick={(e) => e.stopPropagation()}
+												onChange={(e) => changeValueSecondTimer(e)}
+												type="number"
+												className={`w-12 h-fit px-1 duration-300 ${second == 300 && "text-orange-400 text-[14px]"}`}
+												min={15}
+												max={300}
+												value={second}
+											></Input>
+											<span
+												onClick={() =>
+													second !== 0 && setTimer(Number(second))
+												}
+												className="size-7 bg-transparent cursor-pointer hover:bg-accent duration-300 flex items-center justify-center rounded-sm"
+											>
+												<Check size={ICON_SIZE} />
+											</span>
 										</DropdownMenuItem>
-									))}
-								</DropdownMenuContent>
-							</DropdownMenu>
-						</HoverLabel>
+										{TimerConstant.map((item, index: number) => (
+											<DropdownMenuItem
+												onClick={() => setTimer(item.value)}
+												className="text-[12px] cursor-pointer flex items-center gap-2"
+												key={index}
+											>
+												{item.label}
+											</DropdownMenuItem>
+										))}
+									</DropdownMenuContent>
+								</DropdownMenu>
+							</HoverLabel>
+						)}
 					</div>
 				</div>
 			)}

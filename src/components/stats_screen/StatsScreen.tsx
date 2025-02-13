@@ -14,11 +14,13 @@ const StatsScreen = () => {
 			initial={{ opacity: 0, translateZ: 200 }}
 			animate={{ opacity: 1, translateZ: 0 }}
 			transition={{ duration: 0.6, ease: "easeIn" }}
-			className="w-[1024px] h-screen flex flex-col gap-10"
+			className="w-[1024px] h-screen flex flex-col justify-evenly"
 		>
-			<StatsControl />
-			<StatsWpmChart />
-			<section className="grid grid-cols-10 items-start justify-between rounded-md text-foreground/50">
+			<section className="flex flex-col gap-3">
+				<StatsControl />
+				<StatsWpmChart />
+			</section>
+			<section className="grid grid-cols-10 gap-8 items-start justify-between rounded-md text-foreground/50">
 				<div className="flex flex-col gap-10 col-span-5">
 					<div className="grid grid-cols-10 gap-5">
 						<StatsWpm />

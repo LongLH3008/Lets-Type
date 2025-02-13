@@ -3,7 +3,7 @@ import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { ControlState } from "../../types/redux_initialstate_types";
 
 const initialStateControl: ControlState = {
-    keyboard: false,
+    keyboard: true,
     mode: TypingMode.word,
     timer: 30,
     totalWords: 30,

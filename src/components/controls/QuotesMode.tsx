@@ -35,8 +35,7 @@ const QuotesMode = () => {
 	return (
 		<section
 			className={`p-[3.5px] rounded-[9px] h-[40px] translate-y-[1px] border duration-200 ease flex gap-2 items-center justify-between
-			${mode === "quote" ? "border-orange-300 w-[140px]" : "w-[41px]"}
-			${ended > 0 ? "opacity-0" : ""}`}
+			${mode === "quote" ? "border-orange-300 w-[140px]" : "w-[41px]"}`}
 		>
 			<HoverLabel label="Quote mode" className="h-full w-8">
 				<div
@@ -55,34 +54,42 @@ const QuotesMode = () => {
 				<div className="h-full w-[90px]">
 					<div className="h-full flex justify-end items-center gap-1">
 						<span className="h-3/4 w-[1px] bg-orange-200 mr-1"></span>
-						<HoverLabel label="Difficult" className="h-full w-[80px]">
-							<DropdownMenu>
-								<DropdownMenuTrigger asChild className="rounded-lg border">
-									<div className="bg-accent h-full px-1 min-w-8 w-full flex justify-center items-center rounded-[5px] cursor-pointer overflow-hidden group hover:overflow-visible">
-										<span className="text-muted-foreground z-50 font-[700] text-[10px]">
-											{getDifficult(difficult)}
-										</span>
-									</div>
-								</DropdownMenuTrigger>
-								<DropdownMenuContent
-									className="-translate-y-2 w-44 -translate-x-1"
-									align="start"
-								>
-									{QuotesDifficultConstant.map((item, index: number) => (
-										<DropdownMenuItem
-											onClick={() => changeDifficultQuote(item.value)}
-											className="text-[12px] cursor-pointer flex-col font-[700] items-start"
-											key={index}
-										>
-											{item.label}
-											<span className="text-wrap mt-[0.5px] leading-3 font-normal">
-												{item.desc}
+						{ended > 0 ? (
+							<div className="bg-accent h-full px-1 min-w-8 w-full flex justify-center items-center rounded-[5px] cursor-pointer overflow-hidden group hover:overflow-visible">
+								<span className="text-muted-foreground z-50 font-[700] text-[10px]">
+									{getDifficult(difficult)}
+								</span>
+							</div>
+						) : (
+							<HoverLabel label="Difficult" className="h-full w-[80px]">
+								<DropdownMenu>
+									<DropdownMenuTrigger asChild className="rounded-lg border">
+										<div className="bg-accent h-full px-1 min-w-8 w-full flex justify-center items-center rounded-[5px] cursor-pointer overflow-hidden group hover:overflow-visible">
+											<span className="text-muted-foreground z-50 font-[700] text-[10px]">
+												{getDifficult(difficult)}
 											</span>
-										</DropdownMenuItem>
-									))}
-								</DropdownMenuContent>
-							</DropdownMenu>
-						</HoverLabel>
+										</div>
+									</DropdownMenuTrigger>
+									<DropdownMenuContent
+										className="-translate-y-2 w-44 -translate-x-1"
+										align="start"
+									>
+										{QuotesDifficultConstant.map((item, index: number) => (
+											<DropdownMenuItem
+												onClick={() => changeDifficultQuote(item.value)}
+												className="text-[12px] cursor-pointer flex-col font-[700] items-start"
+												key={index}
+											>
+												{item.label}
+												<span className="text-wrap mt-[0.5px] leading-3 font-normal">
+													{item.desc}
+												</span>
+											</DropdownMenuItem>
+										))}
+									</DropdownMenuContent>
+								</DropdownMenu>
+							</HoverLabel>
+						)}
 					</div>
 				</div>
 			)}
