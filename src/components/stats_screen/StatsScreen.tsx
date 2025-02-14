@@ -22,7 +22,7 @@ const StatsScreen = () => {
 			</section>
 			<section className="grid grid-cols-10 gap-8 items-start justify-between rounded-md text-foreground/50">
 				<div className="flex flex-col gap-10 col-span-5">
-					<div className="grid grid-cols-10 gap-5">
+					<div className="grid grid-cols-3">
 						<StatsWpm />
 						<StatsAccuracy />
 						<StatsDuration />

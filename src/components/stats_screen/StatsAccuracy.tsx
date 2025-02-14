@@ -57,7 +57,7 @@ const StatsAccuracy = () => {
 	}, [incorrect]);
 
 	return (
-		<div className="col-span-3 relative font-[500] text-5xl flex flex-col items-start gap-0">
+		<div className="relative font-[500] text-5xl flex flex-col items-start gap-0">
 			<span className="text-base font-bold uppercase">acc</span>
 			<HoverLabel label="Accuracy">
 				<span ref={setRef("acc")}>0%</span>

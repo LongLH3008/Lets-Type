@@ -30,7 +30,7 @@ const StatsTyped = () => {
 	}, [incorrect]);
 
 	return (
-		<div className="col-span-2 relative font-[500] text-5xl flex flex-col items-start">
+		<div className="col-span-2 relative w-[90%] font-[500] text-5xl flex flex-col items-start">
 			<span className="text-base uppercase">typed words</span>
 			<div className="grid grid-cols-4 w-full gap-4 items-center *:flex *:justify-start *:w-full *:text-start">
 				<HoverLabel label="Total typed">
