@@ -8,7 +8,7 @@ const WordDisplay = () => {
 		<div className={`h-fit duration-300 flex items-center relative`}>
 			<div
 				ref={containerRef}
-				className="flex items-center tracking-wide flex-wrap text-[26px] justify-start max-h-48 overflow-hidden w-full"
+				className="flex items-center tracking-wide flex-wrap text-[26px] justify-start max-h-36 overflow-hidden w-full"
 			>
 				<Word />
 				<ScrollIntoViewWord container={containerRef} />

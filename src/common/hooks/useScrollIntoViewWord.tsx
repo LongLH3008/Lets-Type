@@ -10,7 +10,7 @@ const ScrollIntoViewWord = (props: { container: React.RefObject<HTMLDivElement |
 		const currentWord = document.getElementById(`word_${scrollIndex}`);
 		if (!currentWord) return;
 		const { scrollHeight, clientHeight } = props.container.current as HTMLDivElement;
-		if (scrollHeight - 186 > clientHeight) {
+		if (scrollHeight > clientHeight) {
 			currentWord?.scrollIntoView({ behavior: "smooth", block: "center" });
 		}
 	}, [scrollIndex]);
@@ -19,7 +19,7 @@ const ScrollIntoViewWord = (props: { container: React.RefObject<HTMLDivElement |
 	// clientheight: ${props.container.current?.clientHeight}
 	// scrollheight: ${props.container.current?.scrollHeight}`);
 
-	return <div className="opacity-0 size-0 -z-50">scroll in to word {scrollIndex} view</div>;
+	return "";
 };
 
 export default ScrollIntoViewWord;
