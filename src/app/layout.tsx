@@ -1,9 +1,8 @@
+import { ReduxProvider } from "@/common/redux/provider";
+import Footer from "@/components/Footer";
+import Header from "@/components/Header";
 import { ThemeProvider } from "next-themes";
 import { Geist } from "next/font/google";
-import { ReduxProvider } from "../common/redux/provider";
-import Footer from "../components/Footer";
-import Header from "../components/Header";
-import "./globals.css";
 
 const defaultUrl = process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:3000";
 
