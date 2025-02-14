@@ -1,12 +1,13 @@
 import { Difficult, TypingMode } from "@/common/types/control__enums";
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { ControlState } from "../../types/redux_initialstate_types";
+import { generateDataTyping, presskeyAction } from "./typing";
 
 const initialStateControl: ControlState = {
     keyboard: true,
     mode: TypingMode.word,
-    timer: 30,
-    totalWords: 30,
+    timer: 15,
+    totalWords: 15,
     difficult: Difficult.Easy,
     backspace: true,
     typing: false,
@@ -45,6 +46,15 @@ const control = createSlice({
         controlStart: (state, action: PayloadAction<boolean>) => {
             state.typing = action.payload
         }
+    },
+    extraReducers: (builder) => {
+        builder.addCase(generateDataTyping.fulfilled, (state) => {
+            state.typing = false
+        })
+        builder.addCase(presskeyAction.fulfilled, (state) => {
+            if (state.typing) return;
+            state.typing = true;
+        })
     }
 });
 

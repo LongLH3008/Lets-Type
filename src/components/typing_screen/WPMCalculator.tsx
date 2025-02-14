@@ -6,11 +6,11 @@ import { useDispatch, useSelector } from "react-redux";
 const WPMCalculator = () => {
 	const dispatch = useDispatch<AppDispatch>();
 	const wpmRecords = useSelector((state: RootState) => state.stats.wpmRecords);
-	const ended = useSelector((state: RootState) => state.stats.ended);
+	const typing = useSelector((state: RootState) => state.control.typing);
 	let intervalWPM: NodeJS.Timeout | string | number | undefined = undefined;
 
 	useEffect(() => {
-		if (ended > 0) {
+		if (!typing) {
 			if (intervalWPM !== undefined) clearInterval(intervalWPM);
 			return;
 		}
@@ -22,7 +22,7 @@ const WPMCalculator = () => {
 		return () => {
 			clearInterval(intervalWPM);
 		};
-	}, [ended]);
+	}, [typing]);
 
 	return (
 		<div className="relative text-orange-400 flex items-center">
