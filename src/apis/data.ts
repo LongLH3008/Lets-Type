@@ -1,5 +1,5 @@
 import { ControlState } from "@/common/types/redux_initialstate_types";
-import { createClient } from "../supabase/client";
+import { createClient } from "@/supabase/client";
 
 export const getWordsFromClient = async (payload: ControlState) => {
     const supabase = await createClient();
