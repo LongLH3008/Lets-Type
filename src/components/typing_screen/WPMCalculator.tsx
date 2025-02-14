@@ -6,16 +6,23 @@ import { useDispatch, useSelector } from "react-redux";
 const WPMCalculator = () => {
 	const dispatch = useDispatch<AppDispatch>();
 	const wpmRecords = useSelector((state: RootState) => state.stats.wpmRecords);
+	const ended = useSelector((state: RootState) => state.stats.ended);
+	let intervalWPM: NodeJS.Timeout | string | number | undefined = undefined;
 
 	useEffect(() => {
-		const intervalWPM = setInterval(() => {
+		if (ended > 0) {
+			if (intervalWPM !== undefined) clearInterval(intervalWPM);
+			return;
+		}
+
+		intervalWPM = setInterval(() => {
 			dispatch(calcWpm());
 		}, 1000);
 
 		return () => {
 			clearInterval(intervalWPM);
 		};
-	}, []);
+	}, [ended]);
 
 	return (
 		<div className="relative text-orange-400 flex items-center">
