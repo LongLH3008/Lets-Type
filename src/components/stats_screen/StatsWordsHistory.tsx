@@ -18,16 +18,12 @@ const LetterHistory = (props: TypedCharacter) => {
 	return (
 		<span
 			className={cn(
-				`text-foreground/30 border-y mr-[1px] border-r-[0.5px] border-l-2 border-transparent font-[500] duration-200 ${isCorrect()} ${letterCursor} ${isSpace} ${isEdited}`
+				`text-foreground/30 border-y border-r-[0.5px] border-l-2 border-transparent font-[500] duration-200 ${isCorrect()} ${letterCursor} ${isSpace} ${isEdited}`
 			)}
 		>
 			{letterContent}
 		</span>
 	);
-};
-
-const WordAnalysis = () => {
-	return <div>abc</div>;
 };
 
 const StatsWordsHistory = () => {

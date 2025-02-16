@@ -11,6 +11,9 @@ export const metadata = {
 	metadataBase: new URL(defaultUrl),
 	title: "Let's Type!",
 	description: "Typing game",
+	icons: {
+		icon: "./favicon.svg",
+	},
 };
 
 const geistSans = Geist({
