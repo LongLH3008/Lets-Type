@@ -27,7 +27,7 @@ export default function RootLayout({
 	children: React.ReactNode;
 }>) {
 	return (
-		<html lang="en" className={geistSans.className} suppressHydrationWarning>
+		<html lang="en" className={"font-mono"} suppressHydrationWarning>
 			<body className="bg-background text-foreground">
 				<ReduxProvider>
 					<ThemeProvider

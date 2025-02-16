@@ -1,10 +1,9 @@
 import { ControlState } from "@/common/types/redux_initialstate_types";
-import { createClient } from "@/supabase/client";
+import { supabaseClient } from "@/supabase/client";
 
 export const getWordsFromClient = async (payload: ControlState) => {
-    const supabase = await createClient();
     const { difficult, totalWords } = payload
-    let { data, error } = await supabase
+    let { data, error } = await supabaseClient
         .rpc('generate_random_words', {
             difficult_words: difficult,
             limit_words: totalWords
@@ -14,9 +13,8 @@ export const getWordsFromClient = async (payload: ControlState) => {
 }
 
 export const getQuoteFromClient = async (payload: ControlState) => {
-    const supabase = await createClient();
     const { difficult } = payload
-    let { data, error } = await supabase
+    let { data, error } = await supabaseClient
         .rpc('generate_random_quote', {
             difficult_quote: difficult,
         })

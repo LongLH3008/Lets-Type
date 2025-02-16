@@ -2,6 +2,7 @@
 import logo from "@/assets/icons/logo.svg";
 import Image from "next/image";
 import Link from "next/link";
+import AuthTrigger from "./auth/AuthTrigger";
 
 const Header = () => {
 	return (
@@ -12,6 +13,12 @@ const Header = () => {
 					<Link href={"/"} className="font-[700] text-foreground/70">
 						Let's Type!
 					</Link>
+				</div>
+				<div className="max-lg:hidden flex justify-end text-[12px] gap-2 items-center">
+					<Link href={"/"} className="font-[500] text-foreground/70">
+						About
+					</Link>{" "}
+					<AuthTrigger />
 				</div>
 			</div>
 		</nav>

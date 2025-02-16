@@ -4,6 +4,7 @@ import { generateDataTyping } from "@/common/redux/slices/typing";
 import { AppDispatch, RootState } from "@/common/redux/store";
 import { TypingMode } from "@/common/types/control__enums";
 import { AlarmClock, Check } from "lucide-react";
+import { motion } from "motion/react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "../ui/dropdown-menu";
@@ -59,7 +60,11 @@ const TimerMode = () => {
 				</div>
 			</HoverLabel>
 			{mode === "timer" && (
-				<div className="h-full">
+				<motion.div
+					initial={{ opacity: 0, translateX: -50 }}
+					animate={{ opacity: 1, translateX: 0 }}
+					className="h-full"
+				>
 					<div className="h-full flex items-center gap-1">
 						<span className="h-3/4 w-[1px] bg-orange-200 mr-1"></span>
 						{ended > 0 ? (
@@ -115,7 +120,7 @@ const TimerMode = () => {
 							</HoverLabel>
 						)}
 					</div>
-				</div>
+				</motion.div>
 			)}
 		</section>
 	);
