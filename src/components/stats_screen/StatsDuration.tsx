@@ -45,8 +45,8 @@ const StatsDuration = () => {
 	}, [ended]);
 
 	return (
-		<div className="relative font-[500] text-5xl flex flex-col items-start">
-			<span className="text-base font-bold uppercase">dur</span>
+		<div className="relative text-5xl flex flex-col items-start">
+			<span className="text-base uppercase">dur</span>
 			<HoverLabel label="Duration">
 				{isMinute || isSecond ? (
 					<span ref={setCountRef("number")} className="">
@@ -60,7 +60,7 @@ const StatsDuration = () => {
 				)}
 			</HoverLabel>
 			{isMinute || isSecond ? (
-				<span className="text-base font-bold tracking-tight">
+				<span className="text-base tracking-tight">
 					{isMinute ? "minute" : "second"}
 					{calc > 0 ? "s" : ""}
 				</span>

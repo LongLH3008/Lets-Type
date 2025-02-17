@@ -1,19 +1,9 @@
-import { generateDataTyping } from "@/common/redux/slices/typing";
-import { AppDispatch } from "@/common/redux/store";
 import { motion } from "motion/react";
-import { useEffect } from "react";
-import { useDispatch } from "react-redux";
 import Counter from "./Counter";
 import Keyboard from "./Keyboard";
 import WordDisplay from "./WordDisplay";
 
 const TypingScreen = () => {
-	const dispatch = useDispatch<AppDispatch>();
-
-	useEffect(() => {
-		dispatch(generateDataTyping());
-	}, []);
-
 	return (
 		<motion.div
 			style={{ perspective: 200 }}

@@ -36,13 +36,13 @@ const StatsWpm = () => {
 	}, [wpmRecords]);
 
 	return (
-		<div className="relative font-[500] text-5xl text-orange-400 flex flex-col items-start gap-0">
-			<span className="text-base font-bold uppercase">wpm</span>
+		<div className="relative text-5xl text-orange-400 flex flex-col items-start gap-0">
+			<span className="text-base uppercase">wpm</span>
 			<HoverLabel label="Words per min" classNameLabel="left-0 translate-x-0">
 				<span ref={setRef("wpm")}>0.0</span>
 			</HoverLabel>
 			<HoverLabel label="(Raw) words per min" classNameLabel="left-0 translate-x-0">
-				<span ref={setRef("rawWpm")} className="text-base font-bold tracking-tight">
+				<span ref={setRef("rawWpm")} className="text-base tracking-tight">
 					Raw 0.0
 				</span>
 			</HoverLabel>

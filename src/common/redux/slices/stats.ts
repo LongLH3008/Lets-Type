@@ -1,4 +1,6 @@
+import { saveResultFromClient } from "@/apis/data";
 import { SECOND_PER_MIN, STANDARD_CHARACTER_LENGTH } from "@/common/constants/stats";
+import { TypingMode } from "@/common/types/control__enums";
 import { StatsTypedWord } from "@/common/types/stats__types";
 import { TypedWord } from "@/common/types/typing__types";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
@@ -37,6 +39,33 @@ const statsTypedWord = (typedWord: TypedWord[]): StatsTypedWord => {
 
 // Thunk
 export const finish = createAsyncThunk('finish/stats', (_) => {
+})
+
+export const saveResult = createAsyncThunk('stats/saveResult', async (_, { getState }) => {
+    const { typing: { typed }, stats, control, auth } = getState() as RootState;
+    if (stats.ended == 0) return;
+    const wpm = stats.wpmRecords.slice(-1)[0];
+    const payload = {
+        started_at: new Date(stats.started).toISOString(),
+        ended_at: new Date(stats.ended).toISOString(),
+        duration: Math.floor((stats.ended - stats.started) / 1000),
+        mode: control.mode,
+        totalWords: typed.length,
+        wpm: wpm?.wpm as string,
+        rawWpm: wpm?.rawWpm as string,
+        difficult: control.mode === TypingMode.timer ? null : control.difficult
+    }
+
+    if (auth.session == null) {
+        return localStorage.setItem('last_typed', JSON.stringify(payload));
+    }
+    const user_id = auth.session.user.id;
+    try {
+        console.log(payload, user_id);
+        return await saveResultFromClient({ ...payload, user_id });
+    } catch (error) {
+        throw error;
+    }
 })
 
 // Finish and statistics results
@@ -95,7 +124,7 @@ const stats = createSlice({
             state.correct = stats.correct;
             state.incorrect = stats.incorrect;
             state.edited = stats.edited;
-            console.log(JSON.parse(JSON.stringify(state.wpmRecords)))
+            console.log(JSON.stringify(state.wpmRecords))
         })
         builder.addCase(calcWpm.fulfilled, (state, action) => {
             state.wpmRecords.push({ wpm: (action.payload.wpm), rawWpm: (action.payload.rawWpm) })
@@ -114,7 +143,15 @@ const stats = createSlice({
         builder.addCase(backspaceAction.fulfilled, (state, action) => {
             if (action.payload) state.backspace++;
         })
-
+        builder.addCase(saveResult.fulfilled, (state, action) => {
+            console.log(action.payload)
+        })
+        builder.addCase(saveResult.pending, (state, action) => {
+            console.log(action.payload)
+        })
+        builder.addCase(saveResult.rejected, (state, action) => {
+            console.log(action)
+        })
     }
 })
 

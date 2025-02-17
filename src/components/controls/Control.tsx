@@ -3,6 +3,7 @@
 import { RootState } from "@/common/redux/store";
 import { useSelector } from "react-redux";
 import BackspaceSwitch from "./BackspaceSwitch";
+import FeedBack from "./FeedBack";
 import KeyboardSwitch from "./KeyboardSwitch";
 import QuotesMode from "./QuotesMode";
 import Reload from "./Reload";
@@ -28,7 +29,8 @@ const Control = () => {
 				<KeyboardSwitch />
 				<Reload />
 			</div>
-			<div className="justify-end">
+			<div className="justify-end gap-3 items-center">
+				<FeedBack />
 				<ThemeSwitcher />
 			</div>
 		</section>
