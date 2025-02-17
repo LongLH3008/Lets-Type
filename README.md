@@ -1,5 +1,5 @@
 <a href="https://demo-nextjs-with-supabase.vercel.app/">
-  <img style="border-radius: 15px; border: 1px solid rgba(0,0,0,0.05)" alt="Next.js and Supabase Starter Kit - the fastest way to build apps with Next.js and Supabase" src="/src/assets/about/ERD.png">
+  <img style="border-radius: 15px; border: 1px solid rgba(0,0,0,0.05)" alt="Next.js and Supabase Starter Kit - the fastest way to build apps with Next.js and Supabase" src="/src/assets/images/open-graph.png">
   <h1 align="center">Let's Type!</h1>
 </a>
 

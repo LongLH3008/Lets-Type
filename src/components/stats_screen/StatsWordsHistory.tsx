@@ -72,7 +72,7 @@ const StatsWordsHistory = () => {
 	return (
 		<section className="col-span-5 flex flex-col gap-5">
 			<div className="flex justify-between">
-				<span className="text-base font-[500] uppercase">words history</span>
+				<span className="text-base font-[700] uppercase">words history</span>
 				<div className="flex !items-start gap-5 text-[12px]">
 					<div className="flex items-center gap-2">
 						<span className="text-foreground/70 border-foreground/70 font-[500] border-t">

@@ -43,8 +43,7 @@ const TimerMode = () => {
 	return (
 		<section
 			className={`p-[3.5px] rounded-[9px] h-[40px] translate-y-[1px] border duration-200 ease flex gap-2 items-center
-		${mode === "timer" ? "border-orange-300 w-[90px]" : "w-[41px]"}
-		${ended > 0 ? "opacity-0" : ""}`}
+		${mode === "timer" ? "border-orange-300 w-[90px]" : "w-[41px]"}`}
 		>
 			<HoverLabel label="Timer mode" className="h-full w-8">
 				<div

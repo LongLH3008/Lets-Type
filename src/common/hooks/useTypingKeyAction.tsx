@@ -40,7 +40,9 @@ const useTypingKeyAction = (props: Props) => {
 			const value = keyboard_constant.flat().find((item) => item.keycode == e.keyCode);
 			let typed = e.shiftKey ? value?.shift : value?.key;
 			dispatch(presskeyAction({ keycode: e.keyCode, typed: typed as string })).then(() => {
-				dispatch(checkFinished()).then(() => dispatch(calcStats()));
+				dispatch(checkFinished()).then(() => {
+					dispatch(calcStats());
+				});
 			});
 
 			const timeout = setTimeout(() => {

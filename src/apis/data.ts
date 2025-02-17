@@ -1,4 +1,5 @@
 import { ControlState } from "@/common/types/redux_initialstate_types";
+import { ISaveResult } from "@/common/types/stats__types";
 import { supabaseClient } from "@/supabase/client";
 
 export const getWordsFromClient = async (payload: ControlState) => {
@@ -19,5 +20,12 @@ export const getQuoteFromClient = async (payload: ControlState) => {
             difficult_quote: difficult,
         })
     if (error) console.log(error)
+    return data;
+}
+
+export const saveResultFromClient = async (payload: ISaveResult) => {
+    const { data, error } = await supabaseClient.from('Games').insert(payload);
+    if (error) console.log(error)
+    console.log(data);
     return data;
 }

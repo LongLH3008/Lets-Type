@@ -15,11 +15,14 @@ const auth = createSlice({
     reducers: {
         setSession: (state, action) => {
             state.session = action.payload
+        },
+        openAuth: (state) => {
+            state.openAuthBox = true;
         }
     },
     extraReducers: (builder) => {
 
     }
 })
-export const { setSession } = auth.actions
+export const { setSession, openAuth } = auth.actions
 export default auth.reducer;
