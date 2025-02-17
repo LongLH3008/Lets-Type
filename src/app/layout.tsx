@@ -20,7 +20,7 @@ export const metadata = {
 			"Let's Type -  Help you improve your typing skills and speed with different modes and difficulties.",
 		images: [
 			{
-				url: `${defaultUrl}/assets/images/open-graph.png`,
+				url: "../assets/images/open-graph.png",
 				width: 1200,
 				height: 630,
 				alt: "Let's Type - Improve your typing skills and speed",
@@ -35,7 +35,7 @@ export const metadata = {
 		title: "Let's Type!",
 		description:
 			"Let's Type -  Help you improve your typing skills and speed with different modes and difficulties.",
-		image: `${defaultUrl}/assets/images/open-graph.png"`,
+		image: "../assets/images/open-graph.png",
 		imageAlt: "Let's Type - Improve your typing skills and speed",
 	},
 };
