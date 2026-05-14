@@ -20,7 +20,8 @@ const Timer = () => {
 		const intervalTime = setInterval(() => {
 			setTime((prevTime) => {
 				if (prevTime <= 1) {
-					dispatch(finish()).then(() => dispatch(calcStats()));
+					dispatch(finish());
+					dispatch(calcStats());
 					clearInterval(intervalTime);
 					return 0;
 				}

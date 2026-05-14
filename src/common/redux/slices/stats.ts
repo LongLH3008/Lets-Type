@@ -38,9 +38,6 @@ const statsTypedWord = (typedWord: TypedWord[]): StatsTypedWord => {
 }
 
 // Thunk
-export const finish = createAsyncThunk('finish/stats', (_) => {
-})
-
 export const saveResult = createAsyncThunk('stats/saveResult', async (_, { getState }) => {
     const { typing: { typed }, stats, control, auth } = getState() as RootState;
     if (stats.ended == 0) return;
@@ -113,11 +110,12 @@ export const checkFinished = createAsyncThunk(
 const stats = createSlice({
     initialState: initialStatsState,
     name: 'stats',
-    reducers: {},
+    reducers: {
+        finish: (state) => {
+            state.ended = Date.now();
+        }
+    },
     extraReducers: (builder) => {
-        builder.addCase(finish.fulfilled, (state) => {
-            state.ended = Date.now()
-        })
         builder.addCase(calcStats.fulfilled, (state, action) => {
             if (state.started == 0 || state.ended == 0) return;
             const stats = statsTypedWord(action.payload.typed);
@@ -155,5 +153,5 @@ const stats = createSlice({
     }
 })
 
-export const { } = stats.actions
+export const { finish } = stats.actions;
 export default stats.reducer
