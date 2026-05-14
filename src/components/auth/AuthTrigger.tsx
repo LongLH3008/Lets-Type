@@ -28,8 +28,6 @@ const AuthTrigger = () => {
 		return () => subscription.unsubscribe();
 	}, []);
 
-	console.log(session);
-
 	return (
 		<>
 			{session !== null ? (

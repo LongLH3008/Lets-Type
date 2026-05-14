@@ -22,7 +22,6 @@ const StatsWpm = () => {
 		const rawWpm = wpmRecords[wpmRecords.length - 1].rawWpm;
 		animationFrame({
 			duration: 1000,
-			cleanupAnimationFrame: true,
 			animationFrameAction: (process) => {
 				if (countRef.current.wpm !== null) {
 					countRef.current.wpm.innerText = (Number(wpm) * process).toFixed(2).toString();

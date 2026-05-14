@@ -3,25 +3,12 @@
 import { openAuth } from "@/common/redux/slices/auth";
 import { AppDispatch } from "@/common/redux/store";
 import { supabaseClient } from "@/supabase/client";
-import { joiResolver } from "@hookform/resolvers/joi";
-import Joi from "joi";
 import { KeyRound } from "lucide-react";
 import { ReactElement } from "react";
-import { useForm } from "react-hook-form";
 import { FaGithub, FaGoogle } from "react-icons/fa";
 import { useDispatch } from "react-redux";
 import { Button } from "../ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "../ui/dialog";
-
-const schema = Joi.object({
-	email: Joi.string().email({ tlds: false }).required(),
-	password: Joi.string().required(),
-});
-
-type Login = {
-	email: string;
-	password: string;
-};
 
 const AuthBox = ({ triggerButton }: { triggerButton: ReactElement }) => {
 	const dispatch = useDispatch<AppDispatch>();
@@ -36,20 +23,6 @@ const AuthBox = ({ triggerButton }: { triggerButton: ReactElement }) => {
 		const res = await supabaseClient.auth.signInWithOAuth({
 			provider: "github",
 		});
-	};
-
-	const {
-		register,
-		formState: { errors },
-		handleSubmit,
-	} = useForm<Login>({
-		resolver: joiResolver(schema),
-	});
-
-	const Login = async (payload: Login) => {
-		let { data, error } = await supabaseClient.auth.signInWithPassword(payload);
-		// let { data, error } = await supabaseClient.auth.signUp(payload);
-		console.log(data, error);
 	};
 
 	return (

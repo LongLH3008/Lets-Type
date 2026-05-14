@@ -34,8 +34,8 @@ const useTypingKeyAction = (props: Props) => {
 				clearTimeout(timeoutRefs.current.get(e.keyCode));
 			}
 
-			key.classList.remove("bg-foreground/10");
-			key.classList.add("press_key", "bg-orange-400");
+			key.classList.remove("bg-foreground/[0.08]");
+			key.classList.add("press_key", "bg-orange-400", "text-white", "border-orange-300");
 
 			const value = keyboard_constant.flat().find((item) => item.keycode == e.keyCode);
 			let typed = e.shiftKey ? value?.shift : value?.key;
@@ -49,10 +49,10 @@ const useTypingKeyAction = (props: Props) => {
 			});
 
 			const timeout = setTimeout(() => {
-				key?.classList.add("bg-foreground/10");
-				key?.classList.remove("press_key", "bg-orange-400");
+				key?.classList.add("bg-foreground/[0.08]");
+				key?.classList.remove("press_key", "bg-orange-400", "text-white", "border-orange-300");
 				timeoutRefs.current.delete(e.keyCode);
-			}, 50);
+			}, 200);
 
 			timeoutRefs.current.set(e.keyCode, timeout);
 		};

@@ -29,7 +29,7 @@ const Key = forwardRef<HTMLDivElement, { keyData: IKey; keyboard: boolean; index
 				animate={!keyboard ? initital : animate}
 				style={{ perspective: 200 }}
 				id={`keycode-${keyData.keycode}`}
-				className={`bg-foreground/10 rounded-md border-0 *:border-0 text-sm text-foreground/50 relative flex justify-center items-center size-9
+				className={`key-3d bg-foreground/[0.08] border border-foreground/10 border-t-white/20 rounded-md text-sm text-foreground/50 relative flex justify-center items-center size-9
         ${checkSpaceKey(keyData) ? "w-[300px]" : "w-9"}
 		${checkIndexFinger(keyData) ? "underline underline-offset-[10px]" : ""}`}
 			>

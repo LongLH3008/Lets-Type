@@ -1,8 +1,9 @@
-// import logo from "@/assets/icons/icon.svg";
 import logo from "@/assets/icons/logo.svg";
 import Image from "next/image";
 import Link from "next/link";
+import { FaExclamation } from "react-icons/fa";
 import AuthTrigger from "./auth/AuthTrigger";
+import HoverLabel from "./controls/HoverLabel";
 
 const Header = () => {
 	return (
@@ -15,9 +16,16 @@ const Header = () => {
 					</Link>
 				</div>
 				<div className="max-lg:hidden flex justify-end text-[12px] gap-2 items-center">
-					<Link href={"/"} className="font-[500] text-foreground/70">
-						About
-					</Link>{" "}
+					<HoverLabel label="About Let's Type!" classNameLabel="translate-y-0 top-[130%]">
+						<Link
+							href={"/about"}
+							className="font-[500] rounded-[10px] p-[3.5px] border text-foreground/70 group"
+						>
+							<span className="rounded-[5px] group-hover:bg-accent duration-200 size-7 overflow-hidden flex items-center justify-center">
+								<FaExclamation size={12} />
+							</span>
+						</Link>
+					</HoverLabel>
 					<AuthTrigger />
 				</div>
 			</div>

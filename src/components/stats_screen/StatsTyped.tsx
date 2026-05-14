@@ -18,7 +18,6 @@ const StatsTyped = () => {
 		const values = [correct.length + incorrect.length, correct.length, incorrect.length, edited.length];
 		animationFrame({
 			duration: 1000,
-			cleanupAnimationFrame: true,
 			animationFrameAction: (progress) => {
 				for (let el = 0; el < refsCount.current.length; el++) {
 					const element = refsCount.current[el];

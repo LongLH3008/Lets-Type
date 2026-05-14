@@ -18,13 +18,6 @@ export const metadata = {
 		title: "Let's Type!",
 		description:
 			"Let's Type -  Help you improve your typing skills and speed with different modes and difficulties.",
-		images: [
-			{
-				width: 1200,
-				height: 630,
-				alt: "Let's Type - Improve your typing skills and speed",
-			},
-		],
 		url: "https://letstype-web.vercel.app",
 		type: "website",
 		site_name: "Let's Type",
@@ -36,6 +29,7 @@ export const metadata = {
 			"Let's Type -  Help you improve your typing skills and speed with different modes and difficulties.",
 		imageAlt: "Let's Type - Improve your typing skills and speed",
 	},
+	keywords: ["typing", "speed", "typing speed", "typing practice", "typing test"],
 };
 
 export default function RootLayout({
@@ -44,21 +38,21 @@ export default function RootLayout({
 	children: React.ReactNode;
 }>) {
 	return (
-		<html lang="en" className={"font-mono"} suppressHydrationWarning>
+		<html lang='en' className={"font-mono"} suppressHydrationWarning>
 			<head>
 				<GoogleAnalyticsConfig />
 			</head>
-			<body className="bg-background text-foreground">
+			<body className='bg-background text-foreground'>
 				<ReduxProvider>
 					<ThemeProvider
-						attribute="class"
-						defaultTheme="system"
+						attribute='class'
+						defaultTheme='system'
 						enableSystem
 						disableTransitionOnChange
 					>
-						<main className="h-screen flex flex-col items-center">
+						<main className='h-screen flex flex-col items-center'>
 							<Header />
-							<section className="flex flex-col overflow-hidden h-[90%] gap-10 max-w-5xl py-10">
+							<section className='flex flex-col overflow-hidden h-[90%] items-center gap-10 w-full mx-auto max-w-5xl py-10'>
 								{children}
 							</section>
 							<Footer />
