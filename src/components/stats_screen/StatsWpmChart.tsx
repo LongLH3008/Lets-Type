@@ -28,7 +28,6 @@ export function StatsWpmChart() {
 			.map((rec) => rec.wpm)
 			.sort((a, b) => Number(a) - Number(b))
 			.pop();
-		console.log(wpm, raw);
 		const res = Number(wpm) > Number(raw) ? raw : wpm;
 		return Math.ceil(Number(res));
 	};

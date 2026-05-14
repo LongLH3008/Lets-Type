@@ -6,12 +6,15 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 
 
+// ─── Kiểm tra từ hiện tại đang được gõ ───────────────────────────────────────
+// Quy ước: TypedWord.active = true nghĩa là từ đó đã hoàn thành (gõ xong).
+// Từ hiện tại là từ đầu tiên có active = false.
 const checkCurrentWord = (word: TypedWord[]): number => {
     const currentWord = word.findIndex((e) => !e.active);
     return currentWord
 }
 
-// Handle typing
+// ─── Xử lý chuyển sang từ tiếp theo (khi gõ xong toàn bộ ký tự của từ hiện tại) ────
 const handleTypedWord = (word: TypedWord[], index: number): TypedWord[] => {
     const typedCharacter = word[index].character.filter((e) => e.active);
 
@@ -24,6 +27,7 @@ const handleTypedWord = (word: TypedWord[], index: number): TypedWord[] => {
     return res;
 }
 
+// ─── Xử lý gõ một ký tự ──────────────────────────────────────────────────────
 const handleTypedCharacter = (characters: TypedCharacter[], typed: string): TypedCharacter[] => {
     const currentChar = characters.findIndex((e) => !e.active);
     const res = characters.map((e, index: number) => {
@@ -44,7 +48,7 @@ const handleTypedCharacter = (characters: TypedCharacter[], typed: string): Type
     return res
 }
 
-// Handle backspace
+// ─── Xử lý backspace ─────────────────────────────────────────────────────────
 const handleBackspace = (words: TypedWord[], indexCurrentWord: number): TypedWord[] => {
     let indWord = indexCurrentWord
     let currentWord = words[indWord];
@@ -78,7 +82,7 @@ const handleBackspace = (words: TypedWord[], indexCurrentWord: number): TypedWor
     return res;
 }
 
-// Thunks
+// ─── Async Thunks ─────────────────────────────────────────────────────────────
 export const generateDataTyping = createAsyncThunk(
     'typing/generateDataTyping',
     async (_, { getState }) => {
@@ -107,7 +111,7 @@ export const presskeyAction = createAsyncThunk(
     }
 )
 
-// Slice
+// ─── Slice ────────────────────────────────────────────────────────────────────
 const initialDataTypingState: TypingState = {
     typed: [],
     scrollToViewWordIndex: 0,
@@ -146,8 +150,7 @@ const typing = createSlice({
             state.scrollToViewWordIndex = 0;
             state.typed = words
         })
-        builder.addCase(generateDataTyping.rejected, (state, action) => {
-            console.log(action.payload)
+        builder.addCase(generateDataTyping.rejected, () => {
         })
         builder.addCase(backspaceAction.fulfilled, (state, action) => {
             if (!action.payload) return
