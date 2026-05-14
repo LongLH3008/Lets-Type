@@ -70,7 +70,10 @@ export const calcStats = createAsyncThunk('calcStats/stats', (_, { getState }): 
 })
 
 // ─── Tính WPM theo thời gian thực (gọi mỗi giây khi đang gõ) ────────────────
-// Công thức: (số ký tự đúng / 5) * (60 / số giây đã trôi qua)
+// WPM    = (ký tự đúng / 5) * (60 / giây)
+// Raw WPM = (ký tự đã gõ bao gồm cả đã xoá bằng backspace / 5) * (60 / giây)
+//   - char.active=true              → đang hiện (đúng hoặc sai)
+//   - char.edited=true, active=false → đã gõ rồi bị xoá bởi backspace
 export const calcWpm = createAsyncThunk(
     'stats/calcWpm', (_, { getState }): { rawWpm: string, wpm: string } => {
         const { typing: { typed }, stats: { started } } = getState() as RootState;
@@ -80,11 +83,12 @@ export const calcWpm = createAsyncThunk(
         const wpm = (correct_characters / STANDARD_CHARACTER_LENGTH)
             * (SECOND_PER_MIN / duration);
 
-        const chars = typed.reduce((init: number, word) => {
-            const chars = word.character.filter((char) => char.active).length;
-            return chars + init;
+        const totalTypedChars = typed.reduce((init: number, word) => {
+            const activeChars = word.character.filter((char) => char.active).length;
+            const deletedChars = word.character.filter((char) => char.edited && !char.active).length;
+            return activeChars + deletedChars + init;
         }, 0)
-        const raw = (chars / STANDARD_CHARACTER_LENGTH) * (SECOND_PER_MIN / duration);
+        const raw = (totalTypedChars / STANDARD_CHARACTER_LENGTH) * (SECOND_PER_MIN / duration);
         return { rawWpm: raw.toFixed(2).toString(), wpm: wpm.toFixed(2).toString() }
     })
 
