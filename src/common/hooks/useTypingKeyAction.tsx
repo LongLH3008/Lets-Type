@@ -40,8 +40,11 @@ const useTypingKeyAction = (props: Props) => {
 			const value = keyboard_constant.flat().find((item) => item.keycode == e.keyCode);
 			let typed = e.shiftKey ? value?.shift : value?.key;
 			dispatch(presskeyAction({ keycode: e.keyCode, typed: typed as string })).then(() => {
-				dispatch(checkFinished()).then(() => {
-					dispatch(calcStats());
+				dispatch(checkFinished()).then((result) => {
+					// Chỉ tính toán thống kê khi game vừa kết thúc
+					if (result.payload === true) {
+						dispatch(calcStats());
+					}
 				});
 			});
 
