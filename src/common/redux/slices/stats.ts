@@ -36,8 +36,6 @@ const statsTypedWord = (typedWord: TypedWord[]): StatsTypedWord => {
     return calcWord
 }
 
-// ─── Async Thunks ─────────────────────────────────────────────────────────────
-
 // ─── Lưu kết quả lên Supabase hoặc localStorage (nếu chưa đăng nhập) ────────
 export const saveResult = createAsyncThunk('stats/saveResult', async (_, { getState }) => {
     const { typing: { typed }, stats, control, auth } = getState() as RootState;
