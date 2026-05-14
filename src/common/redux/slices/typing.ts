@@ -1,0 +1,180 @@
+import { getQuoteFromClient, getWordsFromClient } from "@/apis/data";
+import { TypingMode } from "@/common/types/control__enums";
+import { TypingState } from "@/common/types/redux_initialstate_types";
+import { TypedCharacter, TypedWord, Word } from "@/common/types/typing__types";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { RootState } from "../store";
+
+
+// ─── Kiểm tra từ hiện tại đang được gõ ───────────────────────────────────────
+// Quy ước: TypedWord.active = true nghĩa là từ đó đã hoàn thành (gõ xong).
+// Từ hiện tại là từ đầu tiên có active = false.
+const checkCurrentWord = (word: TypedWord[]): number => {
+    const currentWord = word.findIndex((e) => !e.active);
+    return currentWord
+}
+
+// ─── Xử lý chuyển sang từ tiếp theo (khi gõ xong toàn bộ ký tự của từ hiện tại) ────
+const handleTypedWord = (word: TypedWord[], index: number): TypedWord[] => {
+    const typedCharacter = word[index].character.filter((e) => e.active);
+
+    if (word[index].content.length !== typedCharacter.length) return word
+    const res = word.map((e, ind: number) => {
+        if (ind == index) return { ...e, active: true }
+        if (ind == index + 1) return { ...e, character: e.character.map((char, indChar) => indChar == 0 ? { ...char, cursor: true } : char) }
+        return e
+    });
+    return res;
+}
+
+// ─── Xử lý gõ một ký tự ──────────────────────────────────────────────────────
+const handleTypedCharacter = (characters: TypedCharacter[], typed: string): TypedCharacter[] => {
+    const currentChar = characters.findIndex((e) => !e.active);
+    const res = characters.map((e, index: number) => {
+        if (currentChar == index) {
+            return {
+                ...e,
+                cursor: false,
+                active: true,
+                typed,
+                correct: typed === e.content
+            }
+        }
+        if (index == currentChar + 1 && index < characters.length) {
+            return { ...e, cursor: true }
+        }
+        return e
+    })
+    return res
+}
+
+// ─── Xử lý backspace ─────────────────────────────────────────────────────────
+const handleBackspace = (words: TypedWord[], indexCurrentWord: number): TypedWord[] => {
+    let indWord = indexCurrentWord
+    let currentWord = words[indWord];
+    let typedCharacter = currentWord.character.findLastIndex((e) => e.active);
+    if (typedCharacter == -1) {
+        indWord = indexCurrentWord - 1
+        currentWord = words[indWord];
+        if (!currentWord) return words
+        typedCharacter = currentWord.character.findLastIndex((e) => e.active);
+    }
+
+    if (typedCharacter == -1) return words;
+
+    const indexDeleteChar = typedCharacter;
+    const character = currentWord.character.map((char, index: number) => {
+        if (index == indexDeleteChar) return { ...char, edited: true, cursor: true, active: false, typed: '', correct: false };
+
+        return { ...char, cursor: false }
+    })
+
+    let res = words.map((e, index: number) => {
+        if (index == indWord) return { ...e, character, active: false }
+        if (index == indWord + 1) {
+            return {
+                ...e, character: e.character.map((char) => ({ ...char, cursor: false }))
+            }
+        }
+        return e;
+    });
+
+    return res;
+}
+
+// ─── Async Thunks ─────────────────────────────────────────────────────────────
+export const generateDataTyping = createAsyncThunk(
+    'typing/generateDataTyping',
+    async (_, { getState }) => {
+        const { control } = getState() as RootState;
+        const { mode } = control;
+        if (mode === TypingMode.quote) {
+            return await getQuoteFromClient(control);
+        } else {
+            return await getWordsFromClient(control);
+        }
+    }
+);
+
+export const backspaceAction = createAsyncThunk(
+    'typing/backspaceAction',
+    (_, { getState }) => {
+        const { control } = getState() as RootState;
+        const { backspace } = control;
+        return backspace
+    })
+
+export const presskeyAction = createAsyncThunk(
+    'typing/presskeyAction',
+    (payload: { keycode: number, typed: string }): { keycode: number, typed: string } => {
+        return payload;
+    }
+)
+
+// ─── Slice ────────────────────────────────────────────────────────────────────
+const initialDataTypingState: TypingState = {
+    typed: [],
+    scrollToViewWordIndex: 0,
+}
+
+const typing = createSlice({
+    name: 'typing',
+    initialState: initialDataTypingState,
+    reducers: {},
+    extraReducers: (builder) => {
+        builder.addCase(generateDataTyping.fulfilled, (state, action) => {
+            let res = [];
+            if (action.payload.length == 1) {
+                const quote = action.payload[0].content.replaceAll('_3dots', '...').replaceAll('_comma', ',').split(' ');
+                res = quote.map((item: string, index: number) => index !== quote.length - 1 ? item + ' ' : item)
+            } else {
+                res = action.payload.map((item: Word, index: number) => index !== action.payload.length - 1 ? item.content + ' ' : item.content);
+            }
+            const initCharacter: Partial<TypedCharacter> = {
+                correct: false,
+                active: false,
+                typed: '',
+                edited: false,
+            }
+
+            const words: TypedWord[] = res.map((item: string, indWord: number) => {
+                const character = item.split('').map((char: string, indChar: number) => ({
+                    ...initCharacter, content: char, cursor: indWord == 0 && indChar == 0
+                }));
+                return {
+                    active: false,
+                    content: item,
+                    character
+                }
+            })
+            state.scrollToViewWordIndex = 0;
+            state.typed = words
+        })
+        builder.addCase(generateDataTyping.rejected, () => {
+        })
+        builder.addCase(backspaceAction.fulfilled, (state, action) => {
+            if (!action.payload) return
+            const currentWordIndex = state.scrollToViewWordIndex
+            const currentWord = state.typed[currentWordIndex];
+            if (currentWordIndex > 0 && currentWord.character.every((char) => !char.active)) {
+                state.scrollToViewWordIndex = currentWordIndex - 1;
+            }
+            state.typed = handleBackspace(state.typed, currentWordIndex);
+        })
+        builder.addCase(presskeyAction.fulfilled, (state, action) => {
+            const currentWordIndex = checkCurrentWord(state.typed);
+            const currentWord = state.typed[currentWordIndex]
+            if (!currentWord) return;
+            state.typed[currentWordIndex].character = handleTypedCharacter(state.typed[currentWordIndex].character, action.payload.typed);
+
+            if (currentWordIndex < state.typed.length - 1 && currentWord.character.filter((char) => char.active).length == currentWord.content.length) {
+                state.scrollToViewWordIndex = currentWordIndex + 1;
+            }
+
+            state.typed = handleTypedWord(state.typed, currentWordIndex);
+        })
+    }
+})
+
+export default typing.reducer;
+

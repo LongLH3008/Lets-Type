@@ -1,6 +1,6 @@
 <a href="https://demo-nextjs-with-supabase.vercel.app/">
-  <img alt="Next.js and Supabase Starter Kit - the fastest way to build apps with Next.js and Supabase" src="/assets/about/ERD.png">
-  <h1 align="center">Let'sType</h1>
+  <img style="border-radius: 15px; border: 1px solid rgba(0,0,0,0.05)" alt="Next.js and Supabase Starter Kit - the fastest way to build apps with Next.js and Supabase" src="/src/assets/images/open-graph.png">
+  <h1 align="center">Let's Type!</h1>
 </a>
 
 <p align="center">
@@ -19,20 +19,12 @@
 </p>
 <br/>
 
-## Features
+### Techstack
 
-- Works across the entire [Next.js](https://nextjs.org) stack
-     - App Router
-     - Pages Router
-     - Middleware
-     - Client
-     - Server
-     - It just works!
-- supabase-ssr. A package to configure Supabase Auth to use cookies
-- Styling with [Tailwind CSS](https://tailwindcss.com)
-- Components with [shadcn/ui](https://ui.shadcn.com/)
-- Optional deployment with [Supabase Vercel Integration and Vercel deploy](#deploy-your-own)
-     - Environment variables automatically assigned to Vercel project
+- Backend:
+     - Database: Postgresql
+     - Baas: Supabase
+     - Auth: Supabase Google & Git
 
 ## Demo
 
