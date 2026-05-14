@@ -24,7 +24,7 @@ export interface StatsState extends StatsTypedWord {
     }[]
     started: number;
     ended: number;
-    backspace: number
+    backspaceCount: number
 }
 
 export interface AuthState {

@@ -15,7 +15,7 @@ const initialStatsState: StatsState = {
     edited: [],
     started: 0,
     ended: 0,
-    backspace: 0,
+    backspaceCount: 0,
 }
 
 // Calculation
@@ -139,7 +139,7 @@ const stats = createSlice({
             }
         })
         builder.addCase(backspaceAction.fulfilled, (state, action) => {
-            if (action.payload) state.backspace++;
+            if (action.payload) state.backspaceCount++;
         })
         builder.addCase(saveResult.fulfilled, (state, action) => {
             console.log(action.payload)
