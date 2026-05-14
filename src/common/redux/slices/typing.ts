@@ -115,20 +115,14 @@ export const presskeyAction = createAsyncThunk(
 
 // Slice
 const initialDataTypingState: TypingState = {
-    data: [],
     typed: [],
-    pressedKey: 0,
     scrollToViewWordIndex: 0,
 }
 
 const typing = createSlice({
     name: 'typing',
     initialState: initialDataTypingState,
-    reducers: {
-        resetPressKey: (state) => {
-            state.pressedKey = 0;
-        }
-    },
+    reducers: {},
     extraReducers: (builder) => {
         builder.addCase(generateDataTyping.fulfilled, (state, action) => {
             let res = [];
@@ -138,8 +132,6 @@ const typing = createSlice({
             } else {
                 res = action.payload.map((item: Word, index: number) => index !== action.payload.length - 1 ? item.content + ' ' : item.content);
             }
-            state.data = res;
-
             const initCharacter: Partial<TypedCharacter> = {
                 correct: false,
                 active: false,
@@ -183,11 +175,9 @@ const typing = createSlice({
             }
 
             state.typed = handleTypedWord(state.typed, currentWordIndex);
-            state.pressedKey = action.payload.keycode;
         })
     }
 })
 
-export const { resetPressKey } = typing.actions;
 export default typing.reducer;
 

@@ -13,10 +13,8 @@ export interface ControlState {
 }
 
 export interface TypingState {
-    data: string[];
     typed: TypedWord[];
-    pressedKey: number;
-    scrollToViewWordIndex: number
+    scrollToViewWordIndex: number;
 }
 
 export interface StatsState extends StatsTypedWord {
