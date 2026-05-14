@@ -1,8 +1,8 @@
 import { saveResult } from "@/common/redux/slices/stats";
-import { AppDispatch, RootState } from "@/common/redux/store";
+import { AppDispatch } from "@/common/redux/store";
 import { motion } from "motion/react";
 import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import StatsAccuracy from "./StatsAccuracy";
 import StatsControl from "./StatsControl";
 import StatsDuration from "./StatsDuration";
@@ -13,11 +13,12 @@ import { StatsWpmChart } from "./StatsWpmChart";
 
 const StatsScreen = () => {
 	const dispatch = useDispatch<AppDispatch>();
-	const session = useSelector((state: RootState) => state.auth.session);
 
 	useEffect(() => {
+		// Lưu kết quả một lần duy nhất khi màn hình stats hiện.
+		// saveResult tự xử lý: nếu đã đăng nhập → lưu DB, chưa đăng nhập → localStorage.
 		dispatch(saveResult());
-	}, [session]);
+	}, [dispatch]);
 
 	return (
 		<motion.div

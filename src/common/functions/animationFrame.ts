@@ -1,6 +1,11 @@
-type animationFrame = { duration: number, animationFrameAction: (progress: number) => void, cleanupAnimationFrame?: boolean }
+type animationFrame = {
+    duration: number, // milliseconds
+    animationFrameAction: (progress: number) => void
+}
 
-export function animationFrame({ duration, animationFrameAction, cleanupAnimationFrame }: animationFrame) {
+type AnimateFrameCancel = { cancel: (handle: number) => void }
+
+export function animationFrame({ duration, animationFrameAction }: animationFrame): AnimateFrameCancel {
     // Timestamp of window
     let start: number | null = null
     let animationFrameId: number;
@@ -20,9 +25,10 @@ export function animationFrame({ duration, animationFrameAction, cleanupAnimatio
         if (progress < 1) {
             animationFrameId = requestAnimationFrame(updateFrame);
         } else {
-            if (cleanupAnimationFrame) cancelAnimationFrame(animationFrameId)
+            cancelAnimationFrame(animationFrameId)
         }
     }
     // Start
     animationFrameId = requestAnimationFrame(updateFrame);
+    return { cancel: () => cancelAnimationFrame(animationFrameId) }
 }

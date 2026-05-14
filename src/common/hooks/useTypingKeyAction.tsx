@@ -34,22 +34,25 @@ const useTypingKeyAction = (props: Props) => {
 				clearTimeout(timeoutRefs.current.get(e.keyCode));
 			}
 
-			key.classList.remove("bg-foreground/10");
-			key.classList.add("press_key", "bg-orange-400");
+			key.classList.remove("bg-foreground/[0.08]");
+			key.classList.add("press_key", "bg-orange-400", "text-white", "border-orange-300");
 
 			const value = keyboard_constant.flat().find((item) => item.keycode == e.keyCode);
 			let typed = e.shiftKey ? value?.shift : value?.key;
 			dispatch(presskeyAction({ keycode: e.keyCode, typed: typed as string })).then(() => {
-				dispatch(checkFinished()).then(() => {
-					dispatch(calcStats());
+				dispatch(checkFinished()).then((result) => {
+					// Chỉ tính toán thống kê khi game vừa kết thúc
+					if (result.payload === true) {
+						dispatch(calcStats());
+					}
 				});
 			});
 
 			const timeout = setTimeout(() => {
-				key?.classList.add("bg-foreground/10");
-				key?.classList.remove("press_key", "bg-orange-400");
+				key?.classList.add("bg-foreground/[0.08]");
+				key?.classList.remove("press_key", "bg-orange-400", "text-white", "border-orange-300");
 				timeoutRefs.current.delete(e.keyCode);
-			}, 50);
+			}, 200);
 
 			timeoutRefs.current.set(e.keyCode, timeout);
 		};

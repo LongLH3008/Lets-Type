@@ -38,7 +38,6 @@ const StatsAccuracy = () => {
 	useEffect(() => {
 		animationFrame({
 			duration: 1000,
-			cleanupAnimationFrame: true,
 			animationFrameAction: (progress) => {
 				if (countRef.current.acc !== null) {
 					const number = Math.floor(calcAcc() * progress);

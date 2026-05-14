@@ -3,6 +3,7 @@ import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { ControlState } from "../../types/redux_initialstate_types";
 import { generateDataTyping, presskeyAction } from "./typing";
 
+// ─── Giá trị mặc định khi khởi động hoặc khi đổi mode ────────────────────────
 const initialStateControl: ControlState = {
     keyboard: true,
     mode: TypingMode.word,
@@ -13,9 +14,8 @@ const initialStateControl: ControlState = {
     typing: false,
 };
 
-// Thunk
-
-
+// ─── Slice ────────────────────────────────────────────────────────────────────
+// Các action reducers xử lý thay đổi cài đặt từ người dùng (mode, timer, độ khó...)
 const control = createSlice({
     name: "control",
     initialState: initialStateControl,

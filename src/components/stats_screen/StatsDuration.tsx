@@ -26,7 +26,6 @@ const StatsDuration = () => {
 	useEffect(() => {
 		animationFrame({
 			duration: 1000,
-			cleanupAnimationFrame: true,
 			animationFrameAction: (progress) => {
 				if (countRef.current.number !== null) {
 					const number = Math.floor((isMinute ? calc / 60 : calc) * progress);

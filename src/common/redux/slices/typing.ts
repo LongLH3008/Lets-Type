@@ -4,15 +4,17 @@ import { TypingState } from "@/common/types/redux_initialstate_types";
 import { TypedCharacter, TypedWord, Word } from "@/common/types/typing__types";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../store";
-import { finish } from "./stats";
 
 
+// ─── Kiểm tra từ hiện tại đang được gõ ───────────────────────────────────────
+// Quy ước: TypedWord.active = true nghĩa là từ đó đã hoàn thành (gõ xong).
+// Từ hiện tại là từ đầu tiên có active = false.
 const checkCurrentWord = (word: TypedWord[]): number => {
     const currentWord = word.findIndex((e) => !e.active);
     return currentWord
 }
 
-// Handle typing
+// ─── Xử lý chuyển sang từ tiếp theo (khi gõ xong toàn bộ ký tự của từ hiện tại) ────
 const handleTypedWord = (word: TypedWord[], index: number): TypedWord[] => {
     const typedCharacter = word[index].character.filter((e) => e.active);
 
@@ -25,6 +27,7 @@ const handleTypedWord = (word: TypedWord[], index: number): TypedWord[] => {
     return res;
 }
 
+// ─── Xử lý gõ một ký tự ──────────────────────────────────────────────────────
 const handleTypedCharacter = (characters: TypedCharacter[], typed: string): TypedCharacter[] => {
     const currentChar = characters.findIndex((e) => !e.active);
     const res = characters.map((e, index: number) => {
@@ -45,7 +48,7 @@ const handleTypedCharacter = (characters: TypedCharacter[], typed: string): Type
     return res
 }
 
-// Handle backspace
+// ─── Xử lý backspace ─────────────────────────────────────────────────────────
 const handleBackspace = (words: TypedWord[], indexCurrentWord: number): TypedWord[] => {
     let indWord = indexCurrentWord
     let currentWord = words[indWord];
@@ -79,7 +82,7 @@ const handleBackspace = (words: TypedWord[], indexCurrentWord: number): TypedWor
     return res;
 }
 
-// Thunks
+// ─── Async Thunks ─────────────────────────────────────────────────────────────
 export const generateDataTyping = createAsyncThunk(
     'typing/generateDataTyping',
     async (_, { getState }) => {
@@ -103,32 +106,21 @@ export const backspaceAction = createAsyncThunk(
 
 export const presskeyAction = createAsyncThunk(
     'typing/presskeyAction',
-    (payload:
-        { keycode: number, typed: string }, { getState, dispatch }
-    ): { keycode: number, typed: string } => {
-        const { typing: { typed } } = getState() as RootState;
-        if (typed.filter((word) => word.active).length === typed.length) {
-            dispatch(finish())
-        }
-        return payload
-    })
+    (payload: { keycode: number, typed: string }): { keycode: number, typed: string } => {
+        return payload;
+    }
+)
 
-// Slice
+// ─── Slice ────────────────────────────────────────────────────────────────────
 const initialDataTypingState: TypingState = {
-    data: [],
     typed: [],
-    pressedKey: 0,
     scrollToViewWordIndex: 0,
 }
 
 const typing = createSlice({
     name: 'typing',
     initialState: initialDataTypingState,
-    reducers: {
-        resetPressKey: (state) => {
-            state.pressedKey = 0;
-        }
-    },
+    reducers: {},
     extraReducers: (builder) => {
         builder.addCase(generateDataTyping.fulfilled, (state, action) => {
             let res = [];
@@ -138,8 +130,6 @@ const typing = createSlice({
             } else {
                 res = action.payload.map((item: Word, index: number) => index !== action.payload.length - 1 ? item.content + ' ' : item.content);
             }
-            state.data = res;
-
             const initCharacter: Partial<TypedCharacter> = {
                 correct: false,
                 active: false,
@@ -160,8 +150,7 @@ const typing = createSlice({
             state.scrollToViewWordIndex = 0;
             state.typed = words
         })
-        builder.addCase(generateDataTyping.rejected, (state, action) => {
-            console.log(action.payload)
+        builder.addCase(generateDataTyping.rejected, () => {
         })
         builder.addCase(backspaceAction.fulfilled, (state, action) => {
             if (!action.payload) return
@@ -183,11 +172,9 @@ const typing = createSlice({
             }
 
             state.typed = handleTypedWord(state.typed, currentWordIndex);
-            state.pressedKey = action.payload.keycode;
         })
     }
 })
 
-export const { resetPressKey } = typing.actions;
 export default typing.reducer;
 
