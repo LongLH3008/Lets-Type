@@ -4,7 +4,6 @@ import { TypingState } from "@/common/types/redux_initialstate_types";
 import { TypedCharacter, TypedWord, Word } from "@/common/types/typing__types";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../store";
-import { finish } from "./stats";
 
 
 const checkCurrentWord = (word: TypedWord[]): number => {
@@ -103,15 +102,10 @@ export const backspaceAction = createAsyncThunk(
 
 export const presskeyAction = createAsyncThunk(
     'typing/presskeyAction',
-    (payload:
-        { keycode: number, typed: string }, { getState, dispatch }
-    ): { keycode: number, typed: string } => {
-        const { typing: { typed } } = getState() as RootState;
-        if (typed.filter((word) => word.active).length === typed.length) {
-            dispatch(finish())
-        }
-        return payload
-    })
+    (payload: { keycode: number, typed: string }): { keycode: number, typed: string } => {
+        return payload;
+    }
+)
 
 // Slice
 const initialDataTypingState: TypingState = {
